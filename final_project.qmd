@@ -5,3 +5,317 @@ execute:
   eval: true
   echo: true
 ---
+
+```{python}
+# Base path (EACH PERSON MUST UPDATE TO WHERE THEIR CRIME DATA IS)
+base_path = 'C:/Users/Jakub/Downloads/final_data'
+```
+
+```{python}
+import pandas as pd
+import geopandas as gpd
+import matplotlib.pyplot as plt
+from shapely.geometry import Point, shape
+from shapely import wkt
+import matplotlib.colors as mcolors
+```
+
+```{python}
+# Load in the CSV files
+communities = pd.read_csv('chicago-community-areas.csv')
+hyde_park = pd.read_csv('Hyde_Park_Crime_20241127.csv')
+homicides = pd.read_csv(
+    'Violence_Reduction_-_Victims_of_Homicides_and_Non-Fatal_Shootings_20241125.csv')
+crimes = pd.read_csv(f'{base_path}/Crimes_-_2001_to_Present_20241127.csv')
+crimes['Date'] = pd.to_datetime(crimes['Date'])
+crimes['geometry'] = crimes.apply(lambda row: Point(
+    row['Longitude'], row['Latitude']), axis=1)
+crimes_gdf = gpd.GeoDataFrame(crimes, geometry='geometry', crs="EPSG:4326")
+chicago = pd.read_csv(f'{base_path}/CommAreas_20241127.csv')
+chicago['the_geom'] = chicago['the_geom'].apply(wkt.loads)
+chicago_gdf = gpd.GeoDataFrame(chicago, geometry='the_geom', crs="EPSG:4326")
+
+# Remove outliers
+crimes_gdf = crimes_gdf[(crimes_gdf['Longitude'].between(-87.94011, -87.52413)) &
+                        (crimes_gdf['Latitude'].between(41.64454, 42.02304))]
+```
+
+```{python}
+# Spatial join crimes and community areas
+joined_gdf = gpd.sjoin(crimes_gdf, chicago_gdf,
+                       how="inner", predicate="within")
+
+# Add crime counts to the gdf
+crime_counts = joined_gdf.groupby(
+    "index_right").size().reset_index(name="crime_count")
+chicago_gdf = chicago_gdf.reset_index()
+chicago_gdf = chicago_gdf.merge(
+    crime_counts, left_index=True, right_on="index_right", how="left")
+
+chicago_gdf["crime_count"] = chicago_gdf["crime_count"].fillna(0)
+```
+
+```{python}
+# Plot
+fig, ax = plt.subplots(figsize=(10, 10))
+chicago_gdf.plot(
+    column="crime_count",
+    cmap="Reds",
+    linewidth=0.8,
+    edgecolor="black",
+    legend=True,
+    ax=ax
+)
+for idx, row in chicago_gdf.iterrows():
+    if row["the_geom"].is_empty:
+        continue
+    centroid = row["the_geom"].centroid
+    ax.annotate(
+        text=str(row["AREA_NUM_1"]),
+        xy=(centroid.x, centroid.y),
+        horizontalalignment="center",
+        fontsize=8,
+        color="black"
+    )
+
+ax.axis("off")
+for spine in ax.spines.values():
+    spine.set_visible(False)
+
+plt.title("Total Crime Count by Community Area in Chicago (Jan 2015 to Nov 2024)")
+plt.show()
+plt.close()
+```
+
+
+```{python}
+chicago[['AREA_NUM_1', 'COMMUNITY']]
+vrs_community = ["AUSTIN", "NORTH LAWNDALE", "HUMBOLDT PARK", "WEST GARFIELD PARK",
+                 "ENGLEWOOD", "AUBURN GRESHAM", "WEST ENGLEWOOD", "GREATER GRAND CROSSING", "ROSELAND", "EAST GARFIELD PARK", "SOUTH SHORE", "CHICAGO LAWN", "SOUTH LAWNDALE", "CHATHAM", "WEST PULLMAN"]
+
+vrs_gdf = chicago_gdf[chicago_gdf["COMMUNITY"].isin(vrs_community)]
+
+# Plot
+fig, ax = plt.subplots(figsize=(10, 10))
+vrs_gdf.plot(
+    column="crime_count",
+    cmap="Reds",
+    linewidth=0.8,
+    edgecolor="black",
+    legend=True,
+    ax=ax
+)
+for idx, row in vrs_gdf.iterrows():
+    if row["the_geom"].is_empty:
+        continue
+    centroid = row["the_geom"].centroid
+    ax.annotate(
+        text=str(row["AREA_NUM_1"]),
+        xy=(centroid.x, centroid.y),
+        horizontalalignment="center",
+        fontsize=8,
+        color="black"
+    )
+
+ax.axis("off")
+for spine in ax.spines.values():
+    spine.set_visible(False)
+
+plt.title("Total Crime Count by Community Area in Chicago (Jan 2015 to Nov 2024)")
+plt.show()
+plt.close()
+```
+
+```{python}
+crimes_2015_2019 = crimes[(crimes['Date'] < '2020-01-01')]
+crimes_2020_2024 = crimes[(crimes['Date'] >= '2020-01-01')]
+
+crimes_2015_2019_gdf = gpd.GeoDataFrame(crimes_2015_2019, geometry='geometry', crs="EPSG:4326")
+crimes_2020_2024_gdf = gpd.GeoDataFrame(crimes_2020_2024, geometry='geometry', crs="EPSG:4326")
+
+joined_2015_2019_gdf = gpd.sjoin(crimes_2015_2019_gdf, chicago_gdf,
+                       how="inner", predicate="within")
+
+joined_2020_2024_gdf = gpd.sjoin(crimes_2020_2024_gdf, chicago_gdf,
+                       how="inner", predicate="within")
+
+crime_counts_2015_2019 = joined_2015_2019_gdf.groupby(
+    "index_right").size().reset_index(name="crime_count")
+crime_counts_2020_2024 = joined_2020_2024_gdf.groupby(
+    "index_right").size().reset_index(name="crime_count")
+
+chicago_2015_2019_gdf = gpd.GeoDataFrame(chicago, geometry='the_geom', crs="EPSG:4326")
+chicago_2020_2024_gdf = gpd.GeoDataFrame(chicago, geometry='the_geom', crs="EPSG:4326")
+
+chicago_2015_2019_gdf = chicago_2015_2019_gdf.merge(
+    crime_counts_2015_2019, left_index=True, right_on="index_right", how="left")
+chicago_2020_2024_gdf = chicago_2020_2024_gdf.merge(
+    crime_counts_2020_2024, left_index=True, right_on="index_right", how="left")
+
+chicago_2015_2019_gdf["crime_count"] = chicago_2015_2019_gdf["crime_count"].fillna(0)
+chicago_2020_2024_gdf["crime_count"] = chicago_2020_2024_gdf["crime_count"].fillna(0)
+```
+
+```{python}
+fig, ax = plt.subplots(figsize=(10, 10))
+chicago_2015_2019_gdf.plot(
+    column="crime_count",
+    cmap="Reds",
+    linewidth=0.8,
+    edgecolor="black",
+    legend=True,
+    ax=ax,
+    vmin=0,
+    vmax=80000
+)
+for idx, row in chicago_2015_2019_gdf.iterrows():
+    if row["the_geom"].is_empty:
+        continue
+    centroid = row["the_geom"].centroid
+    ax.annotate(
+        text=str(row["AREA_NUM_1"]),
+        xy=(centroid.x, centroid.y),
+        horizontalalignment="center",
+        fontsize=8,
+        color="black"
+    )
+
+ax.axis("off")
+for spine in ax.spines.values():
+    spine.set_visible(False)
+
+plt.title("Total Crime Count by Community Area in Chicago (Jan 2015 to Dec 2019)")
+plt.show()
+plt.close()
+```
+
+
+```{python}
+fig, ax = plt.subplots(figsize=(10, 10))
+chicago_2020_2024_gdf.plot(
+    column="crime_count",
+    cmap="Reds",
+    linewidth=0.8,
+    edgecolor="black",
+    legend=True,
+    ax=ax,
+    vmin=0,
+    vmax=80000
+)
+for idx, row in chicago_2020_2024_gdf.iterrows():
+    if row["the_geom"].is_empty:
+        continue
+    centroid = row["the_geom"].centroid
+    ax.annotate(
+        text=str(row["AREA_NUM_1"]),
+        xy=(centroid.x, centroid.y),
+        horizontalalignment="center",
+        fontsize=8,
+        color="black"
+    )
+
+ax.axis("off")
+for spine in ax.spines.values():
+    spine.set_visible(False)
+
+plt.title("Total Crime Count by Community Area in Chicago (Jan 2020 to Nov 2024)")
+plt.show()
+plt.close()
+```
+
+
+```{python}
+diff_gdf = chicago_2020_2024_gdf[['AREA_NUM_1', 'crime_count', 'the_geom']].merge(
+    chicago_2015_2019_gdf[['AREA_NUM_1', 'crime_count', 'the_geom']], 
+    on='AREA_NUM_1', 
+    suffixes=('_2020_2024', '_2015_2019')
+)
+diff_gdf['crime_diff'] = diff_gdf['crime_count_2020_2024'] - diff_gdf['crime_count_2015_2019']
+diff_gdf = diff_gdf.drop(columns=['the_geom_2015_2019'])
+diff_gdf = diff_gdf.rename(columns={'the_geom_2020_2024':'the_geom'})
+```
+
+
+```{python}
+norm = mcolors.TwoSlopeNorm(vmin=diff_gdf['crime_diff'].min(), 
+                            vcenter=0, 
+                            vmax=diff_gdf['crime_diff'].max())
+                
+fig, ax = plt.subplots(figsize=(10, 10))
+diff_gdf.plot(
+    column="crime_diff",
+    cmap="coolwarm", 
+    linewidth=0.8,
+    edgecolor="black",
+    legend=True,
+    norm=norm,
+    ax=ax 
+)
+for idx, row in diff_gdf.iterrows():
+    if row["the_geom"].is_empty:
+        continue
+    centroid = row["the_geom"].centroid
+    ax.annotate(
+        text=str(row["AREA_NUM_1"]),
+        xy=(centroid.x, centroid.y),
+        horizontalalignment="center",
+        fontsize=8,
+        color="black"
+    )
+ax.axis("off")
+for spine in ax.spines.values():
+    spine.set_visible(False)
+
+plt.title("Difference in Total Crime Count by Community Area (2015-2019 to 2020-2024)", fontsize=14)
+plt.show()
+plt.close()
+```
+
+```{python}
+if isinstance(vrs_community, list):
+    vrs_community_df = pd.DataFrame(vrs_community, columns=["COMMUNITY"])
+else:
+    vrs_community_df = vrs_community
+comms = chicago[['AREA_NUM_1', 'COMMUNITY']]
+comm_num = pd.merge(vrs_community_df, comms, on='COMMUNITY', how='inner')
+vrs_diff_gdf = pd.merge(
+    diff_gdf, 
+    comm_num[['AREA_NUM_1', 'COMMUNITY']],
+    on='AREA_NUM_1',
+    how='inner'
+)
+print(vrs_diff_gdf)
+```
+
+```{python}
+fig, ax = plt.subplots(figsize=(10, 10))
+vrs_diff_gdf.plot(
+    column="crime_diff",
+    cmap="Blues_r", 
+    linewidth=0.8,
+    edgecolor="black",
+    legend=True,
+    norm=norm,
+    vmin=0,
+    vmax=-17500,
+    ax=ax 
+)
+for idx, row in vrs_diff_gdf.iterrows():
+    if row["the_geom"].is_empty:
+        continue
+    centroid = row["the_geom"].centroid
+    ax.annotate(
+        text=str(row["AREA_NUM_1"]),
+        xy=(centroid.x, centroid.y),
+        horizontalalignment="center",
+        fontsize=8,
+        color="black"
+    )
+ax.axis("off")
+for spine in ax.spines.values():
+    spine.set_visible(False)
+
+plt.title("Difference in Total Crime Count by Community Area (2015-2019 to 2020-2024)", fontsize=14)
+plt.show()
+plt.close()
+```
