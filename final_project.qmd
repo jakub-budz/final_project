@@ -121,13 +121,13 @@ ax.axis("off")
 for spine in ax.spines.values():
     spine.set_visible(False)
 
-plt.title("Total Crime Count by Community Area in Chicago (Jan 2015 to Nov 2024)")
+plt.title("Total Crime Count by VRS Community Area in Chicago (Jan 2015 to Nov 2024)")
 plt.show()
 plt.close()
 ```
 
 ```{python}
-crimes_2015_2019 = crimes[(crimes['Date'] < '2020-01-01')]
+crimes_2015_2019 = crimes[(crimes['Date'] >= '2015-02-01') & (crimes['Date'] < '2020-01-01')]
 crimes_2020_2024 = crimes[(crimes['Date'] >= '2020-01-01')]
 
 crimes_2015_2019_gdf = gpd.GeoDataFrame(crimes_2015_2019, geometry='geometry', crs="EPSG:4326")
@@ -184,7 +184,7 @@ ax.axis("off")
 for spine in ax.spines.values():
     spine.set_visible(False)
 
-plt.title("Total Crime Count by Community Area in Chicago (Jan 2015 to Dec 2019)")
+plt.title("Total Crime Count by Community Area in Chicago (Feb 2015 to Dec 2019)")
 plt.show()
 plt.close()
 ```
@@ -236,11 +236,7 @@ diff_gdf = diff_gdf.rename(columns={'the_geom_2020_2024':'the_geom'})
 ```
 
 
-```{python}
-norm = mcolors.TwoSlopeNorm(vmin=diff_gdf['crime_diff'].min(), 
-                            vcenter=0, 
-                            vmax=diff_gdf['crime_diff'].max())
-                
+```{python}                
 fig, ax = plt.subplots(figsize=(10, 10))
 diff_gdf.plot(
     column="crime_diff",
@@ -248,7 +244,8 @@ diff_gdf.plot(
     linewidth=0.8,
     edgecolor="black",
     legend=True,
-    norm=norm,
+    vmin=-20000,
+    vmax=20000,
     ax=ax 
 )
 for idx, row in diff_gdf.iterrows():
@@ -266,7 +263,7 @@ ax.axis("off")
 for spine in ax.spines.values():
     spine.set_visible(False)
 
-plt.title("Difference in Total Crime Count by Community Area (2015-2019 to 2020-2024)", fontsize=14)
+plt.title("Difference in Total Crime Count by Community Area (2015-2019 to 2020-2024)")
 plt.show()
 plt.close()
 ```
@@ -291,13 +288,12 @@ print(vrs_diff_gdf)
 fig, ax = plt.subplots(figsize=(10, 10))
 vrs_diff_gdf.plot(
     column="crime_diff",
-    cmap="Blues_r", 
+    cmap="coolwarm", 
     linewidth=0.8,
     edgecolor="black",
     legend=True,
-    norm=norm,
-    vmin=0,
-    vmax=-17500,
+    vmin=-20000,
+    vmax=20000,
     ax=ax 
 )
 for idx, row in vrs_diff_gdf.iterrows():
@@ -315,7 +311,7 @@ ax.axis("off")
 for spine in ax.spines.values():
     spine.set_visible(False)
 
-plt.title("Difference in Total Crime Count by Community Area (2015-2019 to 2020-2024)", fontsize=14)
+plt.title("Difference in Total Crime Count by VRS Community Area (2015-2019 to 2020-2024)")
 plt.show()
 plt.close()
 ```
