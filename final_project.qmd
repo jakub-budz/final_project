@@ -40,7 +40,7 @@ crimes['geometry'] = crimes.apply(lambda row: Point(
 crimes_gdf = gpd.GeoDataFrame(crimes, geometry='geometry', crs="EPSG:4326")
 
 # chicago has 77 community names and their associated community number
-chicago = pd.read_csv(f'{base_path}/CommAreas_20241127.csv')
+chicago = pd.read_csv('CommAreas_20241127.csv')
 chicago['the_geom'] = chicago['the_geom'].apply(wkt.loads)
 chicago_gdf = gpd.GeoDataFrame(chicago, geometry='the_geom', crs="EPSG:4326")
 # Remove outliers
