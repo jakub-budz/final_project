@@ -7,10 +7,10 @@ execute:
 ---
 
 ```{python}
+# Larger dataset here: https://drive.google.com/drive/folders/1dFGQ71CesghWY5dWehwiumX57TJQiykV
+
 # Base path (EACH PERSON MUST UPDATE TO WHERE THEIR CRIME DATA IS)
 base_path = 'C:/Users/Jakub/Downloads/final_data'
-
-# Larger dataset here: https://drive.google.com/drive/folders/1dFGQ71CesghWY5dWehwiumX57TJQiykV
 ```
 
 ```{python}
@@ -34,7 +34,7 @@ hyde_park = pd.read_csv('data/Hyde_Park_Crime_20241127.csv')
 homicides = pd.read_csv(
     'data/Violence_Reduction_-_Victims_of_Homicides_and_Non-Fatal_Shootings_20241125.csv')
 
-# crimes is the full dataset of all crime from 2001 to present (11/27)
+# crimes is the full dataset of all crime from 2015 to present (11/27)
 crimes = pd.read_csv(f'{base_path}/Crimes_-_2001_to_Present_20241127.csv')
 crimes['Date'] = pd.to_datetime(crimes['Date'])
 crimes['geometry'] = crimes.apply(lambda row: Point(
