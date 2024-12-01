@@ -97,7 +97,7 @@ for spine in ax.spines.values():
     spine.set_visible(False)
 
 plt.title("Total Crime Count by Community Area in Chicago (Jan 2015 to Nov 2024)")
-plt.savefig("pictures/com_crime_total.png", bbox_inches='tight', dpi=300)
+plt.savefig("pictures/comm_crime_total.png", bbox_inches='tight', dpi=300)
 plt.show()
 plt.close()
 ```
@@ -143,7 +143,7 @@ for spine in ax.spines.values():
     spine.set_visible(False)
 
 plt.title("Total Crime Count by VRS Community Area in Chicago (Jan 2015 to Nov 2024)")
-plt.savefig("pictures/vrs_com_crime_total.png", bbox_inches='tight', dpi=300)
+plt.savefig("pictures/vrs_comm_crime_total.png", bbox_inches='tight', dpi=300)
 plt.show()
 plt.close()
 ```
@@ -208,7 +208,7 @@ for spine in ax.spines.values():
     spine.set_visible(False)
 
 plt.title("Total Crime Count by Community Area in Chicago (Feb 2015 to Dec 2019)")
-plt.savefig("pictures/com_crime_total_15_19.png", bbox_inches='tight', dpi=300)
+plt.savefig("pictures/comm_crime_total_15_19.png", bbox_inches='tight', dpi=300)
 plt.show()
 plt.close()
 ```
@@ -243,7 +243,7 @@ for spine in ax.spines.values():
     spine.set_visible(False)
 
 plt.title("Total Crime Count by Community Area in Chicago (Jan 2020 to Nov 2024)")
-plt.savefig("pictures/com_crime_total_20_24.png", bbox_inches='tight', dpi=300)
+plt.savefig("pictures/comm_crime_total_20_24.png", bbox_inches='tight', dpi=300)
 plt.show()
 plt.close()
 ```
@@ -287,7 +287,7 @@ for spine in ax.spines.values():
     spine.set_visible(False)
 
 plt.title("Difference in Total Crime Count by Community Area (2015-2019 to 2020-2024)")
-plt.savefig("pictures/com_crime_diff.png", bbox_inches='tight', dpi=300)
+plt.savefig("pictures/comm_crime_diff.png", bbox_inches='tight', dpi=300)
 plt.show()
 plt.close()
 ```
@@ -338,7 +338,7 @@ for spine in ax.spines.values():
     spine.set_visible(False)
 
 plt.title("Difference in Total Crime Count by VRS Community Area (2015-2019 to 2020-2024)")
-plt.savefig("pictures/vrs_com_crime_diff.png", bbox_inches='tight', dpi=300)
+plt.savefig("pictures/vrs_comm_crime_diff.png", bbox_inches='tight', dpi=300)
 plt.show()
 plt.close()
 ```
