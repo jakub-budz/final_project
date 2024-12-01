@@ -98,10 +98,9 @@ for spine in ax.spines.values():
 
 plt.title("Total Crime Count by Community Area in Chicago (Jan 2015 to Nov 2024)")
 plt.savefig("pictures/com_crime_total.png", bbox_inches='tight', dpi=300)
+plt.show()
 plt.close()
 ```
-
-![Total Crime Count by Community Area in Chicago (Jan 2015 to Nov 2024)]("pictures/com_crime_total.png")
 
 ```{python}
 # Filter the data to just those 15 VRS communities
@@ -145,10 +144,9 @@ for spine in ax.spines.values():
 
 plt.title("Total Crime Count by VRS Community Area in Chicago (Jan 2015 to Nov 2024)")
 plt.savefig("pictures/vrs_com_crime_total.png", bbox_inches='tight', dpi=300)
+plt.show()
 plt.close()
 ```
-
-![Total Crime Count by VRS Community Area in Chicago (Jan 2015 to Nov 2024)]("pictures/vrs_com_crime_total.png")
 
 ```{python}
 crimes_2015_2019 = crimes[(crimes['Date'] >= '2015-02-01') & (crimes['Date'] < '2020-01-01')]
@@ -211,10 +209,9 @@ for spine in ax.spines.values():
 
 plt.title("Total Crime Count by Community Area in Chicago (Feb 2015 to Dec 2019)")
 plt.savefig("pictures/com_crime_total_15_19.png", bbox_inches='tight', dpi=300)
+plt.show()
 plt.close()
 ```
-
-![Total Crime Count by Community Area in Chicago (Feb 2015 to Dec 2019)]("pictures/com_crime_total_15_19.png")
 
 ```{python}
 fig, ax = plt.subplots(figsize=(10, 10))
@@ -247,10 +244,9 @@ for spine in ax.spines.values():
 
 plt.title("Total Crime Count by Community Area in Chicago (Jan 2020 to Nov 2024)")
 plt.savefig("pictures/com_crime_total_20_24.png", bbox_inches='tight', dpi=300)
+plt.show()
 plt.close()
 ```
-
-![Total Crime Count by Community Area in Chicago (Jan 2020 to Nov 2024)]("pictures/com_crime_total_20_24.png")
 
 ```{python}
 diff_gdf = chicago_2020_2024_gdf[['AREA_NUM_1', 'crime_count', 'the_geom']].merge(
@@ -292,10 +288,9 @@ for spine in ax.spines.values():
 
 plt.title("Difference in Total Crime Count by Community Area (2015-2019 to 2020-2024)")
 plt.savefig("pictures/com_crime_diff.png", bbox_inches='tight', dpi=300)
+plt.show()
 plt.close()
 ```
-
-![Difference in Total Crime Count by Community Area (2015-2019 to 2020-2024)]("pictures/com_crime_diff.png")
 
 ```{python}
 if isinstance(vrs_community, list):
@@ -344,7 +339,6 @@ for spine in ax.spines.values():
 
 plt.title("Difference in Total Crime Count by VRS Community Area (2015-2019 to 2020-2024)")
 plt.savefig("pictures/vrs_com_crime_diff.png", bbox_inches='tight', dpi=300)
+plt.show()
 plt.close()
 ```
-
-!["Difference in Total Crime Count by VRS Community Area (2015-2019 to 2020-2024)"]("pictures/vrs_com_crime_diff.png")
