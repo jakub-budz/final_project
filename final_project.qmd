@@ -338,7 +338,7 @@ for spine in ax.spines.values():
     spine.set_visible(False)
 
 plt.title("Difference in Total Crime Count by VRS Community Area (2018-2020 to 2021-2023)")
-#plt.savefig("pictures/vrs_comm_crime_diff.png", bbox_inches='tight', dpi=300)
+plt.savefig("pictures/vrs_comm_crime_diff.png", bbox_inches='tight', dpi=300)
 plt.show()
 plt.close()
 ```
