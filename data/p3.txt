@@ -1,0 +1,120 @@
+With a national spotlight placed on the relationship between individuals and law enforcement in the last year, the City has
+redoubled its commitment to increasing police legitimacy in communities where trust has eroded by ensuring humane, effective,
+and constitutional law enforcement practices. Indicators for this pillar include the following: community perception of trust in law
+enforcement; clearance rate for homicides and non-fatal shootings; use of force; guns recovered; police department staff who
+completed Crisis Intervention Training; consent decree compliance; and staff recruited and promoted to meet diversity, equity, and
+inclusion standards.
+In partnership with ZenCity (previously Elucd), the Chicago Police Department gathers 1,500-2,000 survey responses from Chicago
+residents every month, across all 22 police districts in the City to better understand perceptions of safety and levels of trust in law
+enforcement. On a scale of 1-10, individuals are asked to respond to questions regarding
+- Perception of safety in Chicago:
+- “When it comes to the threat of crime, how safe do you feel in your neighborhood?”
+- Trust in law enforcement (average taken for the following two items):
+- “How much do you agree with this statement? The police in my neighborhood listen to and take into
+ account the concerns of local residents”
+- “How much do you agree with this statement? The police in my neighborhood treat local residents with respect”26
+Examination of these data revealed a steady decline in perception of safety which could be attributed to the rise in violent crimes.
+However, perceptions of trust in law enforcement have fluctuated over the years. Although there was a decrease in the average
+trust score in 2021 as compared to 2020, the longer-term trend shows a slight increase in overall trust scores during the 2018-21
+period (Figure 19). 
+The ability of police to clear cases in a timely manner can have impacts on residents’ trust in law enforcement, actual levels of
+safety, and the reduction of violence.27 “Clearance by arrest” is defined as at least one person associated with a crime being arrested,
+charged, and turned over to the court for prosecution. “Clearance by exception” refers to the scenario when elements beyond law
+enforcement’s control prevent the agency from arresting and charging an offender. In order to clear an offense exceptionally, the
+agency must meet all of the 4 following criteria: the agency must have a) identified the offender; b) gathered enough evidence to
+support an arrest, make a charge, and turn over the offender to the court for prosecution; c) identified the offender’s exact location;
+d) encountered a circumstance outside the control of law enforcement that prohibits arrest (e.g., death of offender).28
+Over the previous four-year period, annual clearance rates (which includes both clearance by arrest and exception) for homicides
+were between 41.6% and 49.2%, with the highest rate being observed in 2019. Annual clearance rates for non-fatal shootings were
+between 7.9% and 11.9%, with the lowest rate being observed in 2020 (Figure 20). 
+As can be seen in Figure 21, there is stability over time for clearance by exception for non-fatal shootings. Comparatively, clearance
+by exception rates for homicides were more unstable; while there was a significant decrease in clearance by exception in 2020 as
+compared to 2019, the rate increased again in 2021. The trends for clearance by arrest remained mostly stable for homicides and
+shootings between 2018 and 2021 (Figure 22).
+Improving law enforcement performance and enhancing community safety may also be achieved through the removal of guns
+from the streets. Taking guns out of communities may fall into two distinct categories: gun recovery (criminal circumstances) and
+guns that are turned in or found (non-criminal circumstances). Inclusively, there has been a general increase in guns recovered/
+turned in or found between 2018 and 2021 (Figure 23). For both categories combined, more than 50% of guns were from the 15
+priority community areas annually (Figure 24).
+In addition to improving clearance rates and taking guns off the streets, trust in law enforcement can be strengthened by enhancing
+the quality of citizen-police interactions. The stability of these interactions can be approximated by examining police use of force
+via Tactical Response Report (TRR) documentation. TRRs are used to document, investigate, and evaluate reported use of force
+incidents where members respond to the actions of a subject, including any force mitigation efforts, or when members use a
+reportable use of force. Between 2018 and 2021, we see consistency of the percentage of TRRs by subject race, as seen in Figure
+25 (predominantly Black; approximately 75% of annual TRRs). Overall, the frequency of TRRs decreased in 2021 (3,318 reports)
+compared to the annual average between 2018 and 2020 (4,645 reports). 
+In order to reduce the racial disparity of subject injury by police, CPD conducted extensive community engagement on various
+CPD policies, including Use of Force, School Resource Officers, and interactions with members of specific populations, such as
+transgender, intersex, and gender non-confirming individuals. CPD also improved transparency by revamping their public use of
+force dashboard.
+Police officers often respond to situations involving individuals experiencing a behavioral or mental health crisis. To remedy
+increasing rates of use of force interactions between citizens in crisis and police officers, the Chicago Police Department has
+invested in training and staffing the Crisis Intervention Team (CIT). An explicit goal of trainings is to ensure that police interactions
+with individuals in crisis will be carried out with dignity and respect.29 Officers who have completed this 40-hour training are more
+knowledgeable about the signs and symptoms of mental illness, and are trained on how to interact, intervene, and de-escalate
+situations with persons in crisis and potentially in need of a psychiatric evaluation.30 During the time period 2018-2021, 1,720 law
+enforcement officers completed CIT training. Compared to previous years, a drop in enrollment was experienced in 2020, which
+may be partly attributed to a temporary suspension of training due to the COVID-19 pandemic. The demographic profile of CITtrained officers during 2018-21 was consistent with the current demographic profile of the police force as a whole: 71.6% male
+(74.8% for all CPD), 22.9% Black (22.2% for all CPD), 26.2% Hispanic (28.3% for all CPD; includes individuals identifying as Hispanic,
+White Hispanic, and Black Hispanic), and 46.6% White (45.4% for all CPD) (Figure 26).
+One of the important initiatives to increase the sense of safety and trust in law enforcement is the Chicago Neighborhood
+Policing Initiative (CNPI). In January 2019, the Chicago Police Department in collaboration with the Policing Project at New York
+University School of Law launched CNPI, a pilot in the 25th District designed to increase positive contact between police officers
+and neighborhood community members.31 Interim findings published in May 2021 by Northwestern University’s N3 show that
+both CPD and residents noted positive changes in the first year of the program in the relationship between police and community.
+However, as the COVID-19 pandemic and civil unrest following the murder of George Floyd affected the City, CPD was forced to
+shift its focus to the immediate needs of the City’s communities. The pandemic also caused obstacles by limiting face-to-face
+interactions and close collaborations with community-based organizations, both of which were crucial to the CNPI foundation,
+and thus limited the potential beneficial effects of the program. Currently, the CNPI has expanded its reach to 10 police districts
+(3, 4, 5, 6, 7, 9, 10, 11, 15, and 25) to continue fostering problem solving and relationship building between community and police.
+In addition, the Chicago Police Department is under Consent Decree through the Department of Justice and the Illinois Attorney
+General’s Office.32 This Consent Decree guides reform efforts and consists of 799 paragraphs. On a regular basis, the Independent
+Monitoring Team (IMT) assesses the department’s progress toward the aims expressed in each paragraph. Reform of the
+department is considered to be a primary driver of violence reduction efforts, in that as the public increases its trust in the police
+department, their partnership and cooperation with the police enables higher levels of service and protection. The City of Chicago
+achieved some level of compliance with over half of the 507 paragraphs assessed in the IMT’s fourth report. Chicago has achieved
+some level of compliance with more paragraphs than any other comparable city in its first two years under consent decree (total
+of 266 paragraphs). CPD achieved several accomplishments with respect to the Consent Decree in 2021 in the below topic areas.
+- Community Policing:
+- Expanded the Neighborhood Policing Initiative, which emphasizes problem solving and relationship building,
+ to 10 police districts
+- Implemented an annual community-driven, district-level strategic planning process in all 22 districts
+-Impartial Policing:
+- Hired CPD’s first-ever language access and Americans with Disabilities Act coordinators
+- Revised Department’s policy on interactions with Transgender, Intersex, and Gender Non-Conforming
+ individuals based on extensive community dialogue
+- Delivered a 24-hour, three-part training on Procedural Justice to in-service members
+- Crisis Intervention:
+- Revised CPD’s suite of policies on response to individuals in crisis with extensive community input from the
+ Chicago Council on Mental Health Equity
+- Revised Department’s 40-hour Basic CIT training for certified CIT officers with extensive input from a
+ community working group
+- Use of Force:
+- Revised CPD’s suite of use of force policies multiple times, based on extensive dialogue with the community
+- Implemented mandatory annual in-service training for all officers on de-escalation, response to resistance, and use of force
+- Created the Force Review Division to conduct systematic reviews of use of force incidents
+- Recruitment, Hiring, and Promotions:
+- Completed an extensive, independent evaluation of the Department’s promotional processes for the ranks
+ of Sergeant and Lieutenant
+- Created a brand-new unit dedicated exclusively to recruitment efforts in an effort to grow and diversify pool of
+ police officer candidates
+- Training:
+- Increased the number of mandatory annual training hours for in-service officers from 0 prior to the consent
+ decree to now 40 hours in 2021
+- Supervision:
+- Developed expansion plans of the Unity of Command/Span of Control pilot program, which will help
+ supervisors be better equipped to lead, monitor & assist officers under their supervision
+- Piloted a new staffing model that limits the number of officers per supervisor and ensures consistency of
+ supervision day-to-day
+- Started a pilot program for CPD’s new Officer Support System to identify and support officers who may be at
+ risk for adverse outcomes. This program will serve as a national model for identifying the assisting officers in need
+- Officer Wellness:
+- Expanded the clinical capacity from 3 full-time clinicians to 10 full-time clinicians
+- Accountability & Transparency:
+- Began publicly publishing summary reports that detail misconduct investigations and findings, improving
+ transparency on accountability procedures
+- Data Collection, Analysis, and Management:
+- Published new public dashboards on use of force, accountability, community sentiment, and other metrics to
+ improve transparency
+- Piloted a new Officer Support System designed to help supervisors identify members who may be at-risk for
+ adverse outcomes and determine possible interventions and supports for those members
