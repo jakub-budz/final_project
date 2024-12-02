@@ -1,0 +1,115 @@
+In order to empower and heal our citizens, we must ensure that all residents can pursue opportunities to thrive without fear of
+violence by providing prevention and intervention supports that are available to individuals of all ages and levels of risk. Indicators
+associated with this pillar include violent crime incidents; violent crime victimization;5
+ domestic violence incidents; serious
+victimization (fatal and non-fatal shootings); recidivism (as measure by re-arrest); youth engaged in various supportive programs;
+individuals engaged by street outreach and victim services; individuals diverted from the criminal justice system; and re-entering
+residents.
+As a point of departure, crime incidence was measured using data for what are commonly known as index crimes, representing
+the most serious violent and property offenses. Violent index crimes include aggravated assaults, aggravated batteries, criminal
+sexual assaults, homicides, and robberies. Property index crimes include arsons, burglaries, motor vehicle thefts, and thefts. Due
+to the unprecedented events of 2020 (i.e., global pandemic and civil unrest), we separated the pandemic years (2020 and 2021)
+from the previous years. Hence, in this section 2020 and 2021 numbers are compared to the 2018-2019 average separately.
+Compared to the 2018-2019 average, Chicago experienced increases of incidence for aggravated assault and homicide in 2021.
+However, compared to the 2018-2019 average decreases were observed for aggravated battery, criminal sexual assault, and
+robbery in 2021 (Figure 5). For property crimes, compared to the 2018-2019 average, there were increases in incidence of arsons
+and motor vehicle thefts, and decreases for burglaries and thefts in 2021 (Figure 6).
+Rates of reported incidents of domestic violence (which are included among the violent index crimes, but also include simple
+assaults and batteries) slightly increased in 2021 (10.74 per 1,000 compared to previous 3-year average of 10.49 per 1,000). It is
+important to note that this is the rate for the reported domestic violence incidents, not all domestic violence incidents as many
+of these incidents go unreported.6
+ Furthermore, there was a significant shift in how survivors of domestic violence sought help.
+Compared to the 2018-2019 average, there was a slight increase (0.6%) in calls for help to Illinois Domestic Violence Hotline in
+Chicago. This change was more pronounced in 2021, where the calls for help to the Illinois Domestic Violence Hotline in Chicago
+increased by 6.2% compared to 2018-2019 average (Figure 7).7
+The rise in domestic violence calls to hotlines was consistent with a national - even global - pattern of a rise in domestic and
+intimate partner violence due to social isolation and restrictions posed by the pandemic.8
+Regarding violent crime victimizations during the 2018-21 period, there were increasing trends for aggravated assault, non-fatal
+shootings, vehicular hijacking, and fatal shootings, and decreasing trend for robberies, non-shooting homicides and aggravated
+batteries (Figure 8). In 2021, 30% of all aggravated assault and 50% of all aggravated battery victims were domestic violence
+victims. Overall, domestic violence victimization accounted for 22% of all violent crime victimization in 2020 and 2021.9
+Another indicator to measure our progress in empowering and healing all Chicagoans affected by violence is assessing the rate
+of re-arrest to approximate trends of recidivism. In 2021 in Chicago, the rate of re-arrest for violent index crimes within 12, 24, and
+36 months of a previous arrest was 30.0%, 44.2%, and 52.4%, respectively (i.e., in 2021, 30.0% of individuals arrested for a violent
+index crime had been arrested for a crime within the 12 months prior). Generally, these re-arrest rates were stable during 2018-21,
+with a slight reduction observed in 2021 compared to 2020 (Figure 9).
+While the statistics demonstrated thus far mostly show an increasing trend in violent crimesconsistent with other major cities,
+the City has dedicated millions of dollars and administers several programs for prevention and intervention supports for both
+youth and adults at the highest risk of involvement in violence.
+The City has implemented several programs which offer support services tailored towards youth. These programs can help
+mitigate exposure to neighborhood violence and help youth avoid involvement in the criminal justice system. In spite of the
+pandemic, several youth programs in Chicago continued to operate with success in their primary prevention efforts:
+The Choose to Change program (C2C) is a six-month intervention that offers youth intensive wraparound and professional
+mentoring services that focus on addressing each young person’s specific needs, with trauma-informed cognitive behavioral
+therapy that helps youth process their trauma and develop a new set of decision-making tools. In 2021, the number of youth
+enrolled in the program increased by 47%, from 444 youth enrolled in 2020 to 654 youth in 2021.
+According to mid-study report data released by the University of Chicago Education and Crime Labs that examined 2015-2019
+data, C2C has positive impacts on youth both in the short- and longer-term. Youth enrolled in the program were found to have 48%
+fewer violent-crime arrests than their control peers while enrolled in the program, 38% fewer violent-crime arrests a year and a half
+after program completion, and 33% fewer violent-crime arrests two and a half years after the program ends.10
+The Service Coordination and Navigation (SCaN) program model seeks to stabilize eligible youth in their environment, increase
+their self-efficacy, and assist in their transition to adulthood by offering employment and education supports. In 2021, SCaN had
+an active enrollment of 652 majority young adult Black males enrolled in the program. The City is currently collecting data and
+evaluating the long-term outcomes of the SCaN program which will be provided in future reports.
+The Office of the Mayor, Chicago Police Department, and Department of Family and Support Services are currently developing
+a new youth diversion model to replace current processes that is aimed at being respectful, equitable, trauma-informed, and datadriven, resulting in positive outcomes for youth, families, and communities. This work is being supported with $10M in funding
+from the Chicago Recovery Plan (CRP).
+Programs for adults in Chicago have centered on implementing a trauma-informed approach for helping those who are at the
+greatest risk for violence exposure. Additionally, policy measures have been taken to offer diversionary options for individuals
+experiencing substance use disorders, and for returning citizens:
+As part of Metropolitan Family Services’11 network (MFS), Communities Partnering 4 Peace (CP4P) street outreach organizations12
+have been actively working to quell unrest in several of Chicago’s community areas on the south and west sides. In 2020, Chicago
+Department of Public Health funded street outreach organizations under MFS in 17 community areas for a total of $6,500,00013,
+and several non-MFS victim services organizations serving 11 communities14 for a total of $1,500,000. These investments were
+expanded in 2021, with MFS-led street outreach receiving $12,475,000, victim services receiving $2,475,000, and new independent
+street outreach programs being onboarded at $2,000,000 to serve 6 additional communities15. The impact of increased funding
+can be seen in the significant increases in the number of individuals referred to and enrolled in mental/behavioral health services,
+as well as those who received victim services. There was a decrease in the number of individuals connected to services by street
+outreach due to changes in the partnership with a subcontractor.16 Furthermore, this particular indicator (individuals connected to
+services) accounts for the number of newly enrolled street outreach participants. This means that in 2020 there were 680 and in
+2021 there were 248 newly connected street outreach participants, but, over the course of the 2020-2021 period, approximately
+900 individuals were connected to services (Figure 10).
+The Northwestern Neighborhood and Network Initiative (N3) at the Northwestern University’s Institute for Policy and Research
+is currently performing an evaluation of the impact of street outreach on violence in Chicago.17 Their preliminary results shows
+that CP4P successfully locates high-risk populations and potentially increases educational and employment opportunities while
+reducing the risk of gun violence involvement for the participants.18
+Additional preventive and diversionary measures have been implemented by the City such that the burden placed on the individual
+and criminal legal system may be minimized.
+In 2016, the Chicago Police Department and the High Intensity Drug Trafficking Areas (federal law enforcement focused on
+drug trafficking) partnered with the community healthcare provider Thresholds, and the University of Chicago Crime Lab and
+Health Lab to design, test, and scale the Chicago Police Department Narcotics Arrest Diversion Program (NADP), a police-led drug
+deflection program that offers substance use treatment in place of formal criminal justice system processing. NADP is a citywide
+program first piloted in the community areas in the City’s west side. The program seeks to address the root cause of opioid and
+other substance use by providing a supportive - rather than punitive - intervention for individuals with substance use disorders.
+City-wide data on NADP is available starting August 2020. From August to December 2020, 78 individuals were served by NADP,
+compared to 309 in 2021. Looking into the 2018-2020 data where the program was active only in districts 10, 11, 15, and 25, Crime
+Lab found that the program reduces the time officers spend on processing low-level drug offenses, decreases the likelihood of
+re-involvement with the criminal justice system, connects individuals with substance use disorders to treatment, and improves
+public safety.19
+The City Colleges of Chicago have implemented programs funded through legal cannabis sales-tax revenue, including Still I Rise
+(SIR) and Roots of Success (ROS). The goal of SIR is to prevent violence by providing wraparound services and free education
+and certification to individuals with violence involvement who have cannabis records, allowing them to obtain a living wage job in
+the legal cannabis market. ROS is an environmental literacy program that will be a pipeline into the SIR program. The Spring 2021
+SIR pilot cohort concluded in August 2021, with 10 of the 11 students completing the program. ROS training was offered at OliveHarvey College and community partner locations in Fall 2021. Six of the 11 participants completed the program and received their
+certificates of ROS completion.
+In 2021, the City Colleges of Chicago, Richard J. Daley College partnered with the Inner-City Muslim Action Network (IMAN)
+to implement the Weekend Warriors program. The program aims to positively engage returning residents and at-risk individuals
+on the weekends by offering students quality college-level instruction, career services, behavioral health therapy, individual case
+management, artistic programming, select weekend excursions, transportation support, meals, and weekly stipends.
+Beginning in early 2021, the Office of the Mayor and various partner organizations convened a Working Group on Returning
+Residents to discuss the challenges faced by Chicagoans returning from jail or prison, and to propose recommendations for how
+the City could address those challenges. The goal of this Working Group was to understand the ways in which the City has tried
+to support returning residents in the past, recognize where it has been successful, acknowledge where it has fallen short, and look
+to best practices around the country for a path forward to meaningfully improve the life outcomes of returning residents. These
+efforts culminated in the successful creation of a Chicago Interagency Reentry Council, a full-time Director of Reentry position
+in the Office of the Mayor, and increased investments for services which serve returning residents in the City of Chicago 2022
+Budget. 
+Additionally, the City has invested millions of dollars in services that promote safety and well-being of all Chicagoans.
+$10M from the CRP has been dedicated to support victim services, increasing support to organizations who provide direct,
+long-term services to victims of crime and their loves ones. Supporting families in the immediate aftermath of a violence crime
+is critical. Victim services teams across Chicago provide supports such as assistance with funeral planning, applying for crime
+victim compensation, grief counseling, and other mental health supports, addressing safety concerns, and providing support for
+an array of practical and essential needs.
+The Mayor’s 2022 budget includes $25M in new investments that support survivors of gender-based violence and human
+trafficking, including $5M in funding for young people who have witnesses or experienced violence at home. The investments
+would provide emergency financial assistance, legal services, housing, services for young people, and prevention education efforts.
