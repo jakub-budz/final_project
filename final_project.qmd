@@ -75,7 +75,7 @@ chicago_gdf.plot(
     edgecolor="black",
     legend=True,
     vmin=0,
-    vmax=150000,
+    vmax=100000,
     ax=ax
 )
 
@@ -122,7 +122,7 @@ vrs_gdf.plot(
     edgecolor="black",
     legend=True,
     vmin=0,
-    vmax=150000,
+    vmax=100000,
     ax=ax
 )
 
@@ -149,49 +149,49 @@ plt.close()
 ```
 
 ```{python}
-crimes_2015_2019 = crimes[(crimes['Date'] >= '2015-02-01') & (crimes['Date'] < '2020-01-01')]
-crimes_2020_2024 = crimes[(crimes['Date'] >= '2020-01-01')]
+crimes_2018_2020 = crimes[(crimes['Date'] >= '2018-01-01') & (crimes['Date'] < '2021-01-01')]
+crimes_2021_2023 = crimes[(crimes['Date'] >= '2021-01-01') & (crimes['Date'] < '2024-01-01')]
 
-crimes_2015_2019_gdf = gpd.GeoDataFrame(crimes_2015_2019, geometry='geometry', crs="EPSG:4326")
-crimes_2020_2024_gdf = gpd.GeoDataFrame(crimes_2020_2024, geometry='geometry', crs="EPSG:4326")
+crimes_2018_2020_gdf = gpd.GeoDataFrame(crimes_2018_2020, geometry='geometry', crs="EPSG:4326")
+crimes_2021_2023_gdf = gpd.GeoDataFrame(crimes_2021_2023, geometry='geometry', crs="EPSG:4326")
 
-joined_2015_2019_gdf = gpd.sjoin(crimes_2015_2019_gdf, chicago_gdf,
+joined_2018_2020_gdf = gpd.sjoin(crimes_2018_2020_gdf, chicago_gdf,
                        how="inner", predicate="within")
 
-joined_2020_2024_gdf = gpd.sjoin(crimes_2020_2024_gdf, chicago_gdf,
+joined_2021_2023_gdf = gpd.sjoin(crimes_2021_2023_gdf, chicago_gdf,
                        how="inner", predicate="within")
 
-crime_counts_2015_2019 = joined_2015_2019_gdf.groupby(
+crime_counts_2018_2020 = joined_2018_2020_gdf.groupby(
     "index_right").size().reset_index(name="crime_count")
-crime_counts_2020_2024 = joined_2020_2024_gdf.groupby(
+crime_counts_2021_2023 = joined_2021_2023_gdf.groupby(
     "index_right").size().reset_index(name="crime_count")
 
-chicago_2015_2019_gdf = gpd.GeoDataFrame(chicago, geometry='the_geom', crs="EPSG:4326")
-chicago_2020_2024_gdf = gpd.GeoDataFrame(chicago, geometry='the_geom', crs="EPSG:4326")
+chicago_2018_2020_gdf = gpd.GeoDataFrame(chicago, geometry='the_geom', crs="EPSG:4326")
+chicago_2021_2023_gdf = gpd.GeoDataFrame(chicago, geometry='the_geom', crs="EPSG:4326")
 
-chicago_2015_2019_gdf = chicago_2015_2019_gdf.merge(
-    crime_counts_2015_2019, left_index=True, right_on="index_right", how="left")
-chicago_2020_2024_gdf = chicago_2020_2024_gdf.merge(
-    crime_counts_2020_2024, left_index=True, right_on="index_right", how="left")
+chicago_2018_2020_gdf = chicago_2018_2020_gdf.merge(
+    crime_counts_2018_2020, left_index=True, right_on="index_right", how="left")
+chicago_2021_2023_gdf = chicago_2021_2023_gdf.merge(
+    crime_counts_2021_2023, left_index=True, right_on="index_right", how="left")
 
-chicago_2015_2019_gdf["crime_count"] = chicago_2015_2019_gdf["crime_count"].fillna(0)
-chicago_2020_2024_gdf["crime_count"] = chicago_2020_2024_gdf["crime_count"].fillna(0)
+chicago_2018_2020_gdf["crime_count"] = chicago_2018_2020_gdf["crime_count"].fillna(0)
+chicago_2021_2023_gdf["crime_count"] = chicago_2021_2023_gdf["crime_count"].fillna(0)
 ```
 
 ```{python}
 fig, ax = plt.subplots(figsize=(10, 10))
 
-chicago_2015_2019_gdf.plot(
+chicago_2018_2020_gdf.plot(
     column="crime_count",
     cmap="Reds",
     edgecolor="black",
     legend=True,
     ax=ax,
     vmin=0,
-    vmax=75000
+    vmax=40000
 )
 
-for idx, row in chicago_2015_2019_gdf.iterrows():
+for idx, row in chicago_2018_2020_gdf.iterrows():
     if row["the_geom"].is_empty:
         continue
     centroid = row["the_geom"].centroid
@@ -207,8 +207,8 @@ ax.axis("off")
 for spine in ax.spines.values():
     spine.set_visible(False)
 
-plt.title("Total Crime Count by Community Area in Chicago (Feb 2015 to Dec 2019)")
-plt.savefig("pictures/comm_crime_total_15_19.png", bbox_inches='tight', dpi=300)
+plt.title("Total Crime Count by Community Area in Chicago (2018 to 2020)")
+plt.savefig("pictures/comm_crime_total_18_20.png", bbox_inches='tight', dpi=300)
 plt.show()
 plt.close()
 ```
@@ -216,17 +216,17 @@ plt.close()
 ```{python}
 fig, ax = plt.subplots(figsize=(10, 10))
 
-chicago_2020_2024_gdf.plot(
+chicago_2021_2023_gdf.plot(
     column="crime_count",
     cmap="Reds",
     edgecolor="black",
     legend=True,
     ax=ax,
     vmin=0,
-    vmax=75000
+    vmax=40000
 )
 
-for idx, row in chicago_2020_2024_gdf.iterrows():
+for idx, row in chicago_2021_2023_gdf.iterrows():
     if row["the_geom"].is_empty:
         continue
     centroid = row["the_geom"].centroid
@@ -242,21 +242,21 @@ ax.axis("off")
 for spine in ax.spines.values():
     spine.set_visible(False)
 
-plt.title("Total Crime Count by Community Area in Chicago (Jan 2020 to Nov 2024)")
-plt.savefig("pictures/comm_crime_total_20_24.png", bbox_inches='tight', dpi=300)
+plt.title("Total Crime Count by Community Area in Chicago (2021 to 2023)")
+plt.savefig("pictures/comm_crime_total_21_23.png", bbox_inches='tight', dpi=300)
 plt.show()
 plt.close()
 ```
 
 ```{python}
-diff_gdf = chicago_2020_2024_gdf[['AREA_NUM_1', 'crime_count', 'the_geom']].merge(
-    chicago_2015_2019_gdf[['AREA_NUM_1', 'crime_count', 'the_geom']], 
+diff_gdf = chicago_2021_2023_gdf[['AREA_NUM_1', 'crime_count', 'the_geom']].merge(
+    chicago_2018_2020_gdf[['AREA_NUM_1', 'crime_count', 'the_geom']], 
     on='AREA_NUM_1', 
-    suffixes=('_2020_2024', '_2015_2019')
+    suffixes=('_2021_2023', '_2018_2020')
 )
-diff_gdf['crime_diff'] = diff_gdf['crime_count_2020_2024'] - diff_gdf['crime_count_2015_2019']
-diff_gdf = diff_gdf.drop(columns=['the_geom_2015_2019'])
-diff_gdf = diff_gdf.rename(columns={'the_geom_2020_2024':'the_geom'})
+diff_gdf['crime_diff'] = diff_gdf['crime_count_2021_2023'] - diff_gdf['crime_count_2018_2020']
+diff_gdf = diff_gdf.drop(columns=['the_geom_2018_2020'])
+diff_gdf = diff_gdf.rename(columns={'the_geom_2021_2023':'the_geom'})
 ```
 
 ```{python}                
@@ -268,7 +268,7 @@ diff_gdf.plot(
     edgecolor="black",
     legend=True,
     ax=ax,
-    vmin=-20000,
+    vmin=-10000,
     vmax=10000
 )
 for idx, row in diff_gdf.iterrows():
@@ -286,7 +286,7 @@ ax.axis("off")
 for spine in ax.spines.values():
     spine.set_visible(False)
 
-plt.title("Difference in Total Crime Count by Community Area (2015-2019 to 2020-2024)")
+plt.title("Difference in Total Crime Count by Community Area (2018-2020 to 2021-2023)")
 plt.savefig("pictures/comm_crime_diff.png", bbox_inches='tight', dpi=300)
 plt.show()
 plt.close()
@@ -318,7 +318,7 @@ vrs_diff_gdf.plot(
     linewidth=0.8,
     edgecolor="black",
     legend=True,
-    vmin=-20000,
+    vmin=-10000,
     vmax=10000,
     ax=ax 
 )
@@ -337,8 +337,8 @@ ax.axis("off")
 for spine in ax.spines.values():
     spine.set_visible(False)
 
-plt.title("Difference in Total Crime Count by VRS Community Area (2015-2019 to 2020-2024)")
-plt.savefig("pictures/vrs_comm_crime_diff.png", bbox_inches='tight', dpi=300)
+plt.title("Difference in Total Crime Count by VRS Community Area (2018-2020 to 2021-2023)")
+#plt.savefig("pictures/vrs_comm_crime_diff.png", bbox_inches='tight', dpi=300)
 plt.show()
 plt.close()
 ```
