@@ -1,0 +1,9 @@
+---
+title: "Final Project Write-Up"
+author: "Lara Tamer, Ralph Valery Valiere, Jakub Budz"
+date: "December 7, 2024"
+format:
+  html: default
+---
+
+This is the writeup for our project. It will be knitted in html and pdf
