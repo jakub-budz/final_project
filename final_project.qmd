@@ -1,9 +1,15 @@
 ---
 title: "Final Project"
-format: html
+author: "Lara Tamer, Ralph Valery Valiere, Jakub Budz"
+date: "December 7, 2024"
+format:
+  pdf:
+    code-overflow: wrap
 execute:
   eval: true
   echo: true
+  warning: false
+  error: false
 ---
 
 ```{python}
@@ -22,6 +28,11 @@ from shapely import wkt
 import matplotlib.colors as mcolors
 import spacy
 import altair as alt
+import time
+import os
+import json
+import numpy as np
+import seaborn as sns
 from spacytextblob.spacytextblob import SpacyTextBlob
 nlp = spacy.load('en_core_web_sm')
 nlp.add_pipe('spacytextblob')
@@ -36,22 +47,22 @@ def analyze_text(file_name):
     doc = nlp(text)
     polarity = doc._.blob.polarity
     subjectivity = doc._.blob.subjectivity
-    
+
     sentence_polarities = []
     for i, sentence in enumerate(doc.sents):
         polarity = sentence._.blob.polarity
-        sentence_polarities.append({"n": i + 1, f"{base_name}_polarity": polarity})
+        sentence_polarities.append(
+            {"n": i + 1, f"{base_name}_polarity": polarity})
     df = pd.DataFrame(sentence_polarities)
 
     chart = alt.Chart(df).mark_line().encode(
         x=alt.X('n', title='Sentence Number'),
         y=alt.Y(f'{base_name}_polarity', title='Polarity')
     ).properties(
-        title=
-            {'text':base_name.capitalize(),
-            'subtitle': [
-                f'Section Polarity: {polarity:.2f}',
-                f'Section Subjectivity: {subjectivity:.2f}']},
+        title={'text': base_name.capitalize(),
+               'subtitle': [
+            f'Section Polarity: {polarity:.2f}',
+            f'Section Subjectivity: {subjectivity:.2f}']},
         width=100,
         height=100
     )
@@ -102,6 +113,8 @@ row3 = alt.hconcat(p3_chart, p4_chart, p5_chart)
 combined_chart = alt.vconcat(row1, row2, row3)
 combined_chart.save('pictures/combined_chart.png')
 ```
+
+![NLP Chart]('pictures/combined_chart.png')
 
 ```{python}
 # Load in the CSV files
@@ -179,9 +192,10 @@ for spine in ax.spines.values():
 
 plt.title("Total Crime Count by Community Area in Chicago (Jan 2015 to Nov 2024)")
 plt.savefig("pictures/comm_crime_total.png", bbox_inches='tight', dpi=300)
-plt.show()
 plt.close()
 ```
+
+![Total Crime Count by Community Area in Chicago (Jan 2015 to Nov 2024)]("pictures/comm_crime_total.png")
 
 ```{python}
 # Filter the data to just those 15 VRS communities
@@ -225,38 +239,47 @@ for spine in ax.spines.values():
 
 plt.title("Total Crime Count by VRS Community Area in Chicago (Jan 2015 to Nov 2024)")
 plt.savefig("pictures/vrs_comm_crime_total.png", bbox_inches='tight', dpi=300)
-plt.show()
 plt.close()
 ```
 
-```{python}
-crimes_2018_2020 = crimes[(crimes['Date'] >= '2018-01-01') & (crimes['Date'] < '2021-01-01')]
-crimes_2021_2023 = crimes[(crimes['Date'] >= '2021-01-01') & (crimes['Date'] < '2024-01-01')]
+![Total Crime Count by VRS Community Area in Chicago (Jan 2015 to Nov 2024)]('pictures/vrs_comm_crime_total.png')
 
-crimes_2018_2020_gdf = gpd.GeoDataFrame(crimes_2018_2020, geometry='geometry', crs="EPSG:4326")
-crimes_2021_2023_gdf = gpd.GeoDataFrame(crimes_2021_2023, geometry='geometry', crs="EPSG:4326")
+```{python}
+crimes_2018_2020 = crimes[(crimes['Date'] >= '2018-01-01')
+                          & (crimes['Date'] < '2021-01-01')]
+crimes_2021_2023 = crimes[(crimes['Date'] >= '2021-01-01')
+                          & (crimes['Date'] < '2024-01-01')]
+
+crimes_2018_2020_gdf = gpd.GeoDataFrame(crimes_2018_2020,
+                                        geometry='geometry', crs="EPSG:4326")
+crimes_2021_2023_gdf = gpd.GeoDataFrame(crimes_2021_2023,
+                                        geometry='geometry', crs="EPSG:4326")
 
 joined_2018_2020_gdf = gpd.sjoin(crimes_2018_2020_gdf, chicago_gdf,
-                       how="inner", predicate="within")
+                                 how="inner", predicate="within")
 
 joined_2021_2023_gdf = gpd.sjoin(crimes_2021_2023_gdf, chicago_gdf,
-                       how="inner", predicate="within")
+                                 how="inner", predicate="within")
 
 crime_counts_2018_2020 = joined_2018_2020_gdf.groupby(
     "index_right").size().reset_index(name="crime_count")
 crime_counts_2021_2023 = joined_2021_2023_gdf.groupby(
     "index_right").size().reset_index(name="crime_count")
 
-chicago_2018_2020_gdf = gpd.GeoDataFrame(chicago, geometry='the_geom', crs="EPSG:4326")
-chicago_2021_2023_gdf = gpd.GeoDataFrame(chicago, geometry='the_geom', crs="EPSG:4326")
+chicago_2018_2020_gdf = gpd.GeoDataFrame(
+    chicago, geometry='the_geom', crs="EPSG:4326")
+chicago_2021_2023_gdf = gpd.GeoDataFrame(
+    chicago, geometry='the_geom', crs="EPSG:4326")
 
 chicago_2018_2020_gdf = chicago_2018_2020_gdf.merge(
     crime_counts_2018_2020, left_index=True, right_on="index_right", how="left")
 chicago_2021_2023_gdf = chicago_2021_2023_gdf.merge(
     crime_counts_2021_2023, left_index=True, right_on="index_right", how="left")
 
-chicago_2018_2020_gdf["crime_count"] = chicago_2018_2020_gdf["crime_count"].fillna(0)
-chicago_2021_2023_gdf["crime_count"] = chicago_2021_2023_gdf["crime_count"].fillna(0)
+chicago_2018_2020_gdf["crime_count"] = chicago_2018_2020_gdf["crime_count"].fillna(
+    0)
+chicago_2021_2023_gdf["crime_count"] = chicago_2021_2023_gdf["crime_count"].fillna(
+    0)
 ```
 
 ```{python}
@@ -289,10 +312,12 @@ for spine in ax.spines.values():
     spine.set_visible(False)
 
 plt.title("Total Crime Count by Community Area in Chicago (2018 to 2020)")
-plt.savefig("pictures/comm_crime_total_18_20.png", bbox_inches='tight', dpi=300)
-plt.show()
+plt.savefig("pictures/comm_crime_total_18_20.png",
+            bbox_inches='tight', dpi=300)
 plt.close()
 ```
+
+![Total Crime Count by Community Area in Chicago (2018 to 2020)]("pictures/comm_crime_total_18_20.png")
 
 ```{python}
 fig, ax = plt.subplots(figsize=(10, 10))
@@ -324,20 +349,23 @@ for spine in ax.spines.values():
     spine.set_visible(False)
 
 plt.title("Total Crime Count by Community Area in Chicago (2021 to 2023)")
-plt.savefig("pictures/comm_crime_total_21_23.png", bbox_inches='tight', dpi=300)
-plt.show()
+plt.savefig("pictures/comm_crime_total_21_23.png",
+            bbox_inches='tight', dpi=300)
 plt.close()
 ```
 
+![Total Crime Count by Community Area in Chicago (2021 to 2023)]("pictures/comm_crime_total_21_23.png")
+
 ```{python}
 diff_gdf = chicago_2021_2023_gdf[['AREA_NUM_1', 'crime_count', 'the_geom']].merge(
-    chicago_2018_2020_gdf[['AREA_NUM_1', 'crime_count', 'the_geom']], 
-    on='AREA_NUM_1', 
+    chicago_2018_2020_gdf[['AREA_NUM_1', 'crime_count', 'the_geom']],
+    on='AREA_NUM_1',
     suffixes=('_2021_2023', '_2018_2020')
 )
-diff_gdf['crime_diff'] = diff_gdf['crime_count_2021_2023'] - diff_gdf['crime_count_2018_2020']
+diff_gdf['crime_diff'] = diff_gdf[
+    'crime_count_2021_2023'] - diff_gdf['crime_count_2018_2020']
 diff_gdf = diff_gdf.drop(columns=['the_geom_2018_2020'])
-diff_gdf = diff_gdf.rename(columns={'the_geom_2021_2023':'the_geom'})
+diff_gdf = diff_gdf.rename(columns={'the_geom_2021_2023': 'the_geom'})
 ```
 
 ```{python}                
@@ -367,11 +395,13 @@ ax.axis("off")
 for spine in ax.spines.values():
     spine.set_visible(False)
 
-plt.title("Difference in Total Crime Count by Community Area (2018-2020 to 2021-2023)")
+plt.title(
+    "Difference in Total Crime Count by Community Area (2018-2020 to 2021-2023)")
 plt.savefig("pictures/comm_crime_diff.png", bbox_inches='tight', dpi=300)
-plt.show()
 plt.close()
 ```
+
+![Difference in Total Crime Count by Community Area (2018-2020 to 2021-2023)]("pictures/comm_crime_diff.png")
 
 ```{python}
 if isinstance(vrs_community, list):
@@ -381,7 +411,7 @@ else:
 comms = chicago[['AREA_NUM_1', 'COMMUNITY']]
 comm_num = pd.merge(vrs_community_df, comms, on='COMMUNITY', how='inner')
 vrs_diff_gdf = pd.merge(
-    diff_gdf, 
+    diff_gdf,
     comm_num[['AREA_NUM_1', 'COMMUNITY']],
     on='AREA_NUM_1',
     how='inner'
@@ -395,13 +425,13 @@ chicago_gdf.plot(ax=ax, color='lightgrey', edgecolor='black')
 
 vrs_diff_gdf.plot(
     column="crime_diff",
-    cmap="coolwarm", 
+    cmap="coolwarm",
     linewidth=0.8,
     edgecolor="black",
     legend=True,
     vmin=-10000,
     vmax=10000,
-    ax=ax 
+    ax=ax
 )
 for idx, row in vrs_diff_gdf.iterrows():
     if row["the_geom"].is_empty:
@@ -418,39 +448,21 @@ ax.axis("off")
 for spine in ax.spines.values():
     spine.set_visible(False)
 
-plt.title("Difference in Total Crime Count by VRS Community Area (2018-2020 to 2021-2023)")
+plt.title(
+    "Difference in Total Crime Count by VRS Community Area (2018-2020 to 2021-2023)")
 plt.savefig("pictures/vrs_comm_crime_diff.png", bbox_inches='tight', dpi=300)
-plt.show()
 plt.close()
 ```
 
-```{python}
-import pandas as pd
-import altair as alt
-import time
-import geopandas as gpd
-import os
-import json
-import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
-import os
-```
+![Difference in Total Crime Count by VRS Community Area (2018-2020 to 2021-2023)]("pictures/vrs_comm_crime_diff.png")
 
 ```{python}
-file_path = '/Users/laratamer/Desktop/Crimes_-_2001_to_Present_20241127.csv'
-
-crimes_data = pd.read_csv(file_path)
+crimes_data = pd.read_csv(f'{base_path}/Crimes_-_2001_to_Present_20241127.csv')
 print(crimes_data.columns)
 ```
 
 ```{python}
-crimes_data['Date'] = pd.to_datetime(crimes_data['Date'], errors = 'coerce')
-```
-
-```{python}
-# unique_descriptions = crimes_data['Primary Type'].unique()
-# print(unique_descriptions)
+crimes_data['Date'] = pd.to_datetime(crimes_data['Date'], errors='coerce')
 ```
 
 Replace CRIM SEXUAL ASSAULT with CRIMINIAL SEXUAL ASSAULT
@@ -460,44 +472,15 @@ crimes_data['Primary Type'] = crimes_data['Primary Type'].replace(
 )
 ```
 
-```{python}
-# min_date = crimes_data['Date'].min()
-# max_date = crimes_data['Date'].max()
-
-# print(f"Minimum date: {min_date}")
-# print(f"Maximum date: {max_date}")
-```
-
-```{python}
-# excel_file = "Crimes_-_2001_to_Present_20241127 (1).xlsx"
-# max_rows = 1048575
-
-# # Check if `crimes_data` is defined
-# if 'crimes_data' in locals() or 'crimes_data' in globals():
-#     # Split the DataFrame and save to multiple sheets
-#     with pd.ExcelWriter(excel_file, engine='openpyxl') as writer:
-#         for start_row in range(0, crimes_data.shape[0], max_rows):
-#             # Extract a chunk of the DataFrame
-#             end_row = min(start_row + max_rows, crimes_data.shape[0])
-#             chunk = crimes_data.iloc[start_row:end_row]
-            
-#             # Write the chunk to a separate sheet
-#             sheet_name = f"Sheet_{start_row // max_rows + 1}"
-#             chunk.to_excel(writer, sheet_name=sheet_name, index=False)
-    
-#     print(f"Data has been saved to {excel_file} in multiple sheets.")
-# else:
-#     print("The DataFrame `crimes_data` is not defined. Please define it first.")
-```
-
 Added a new column to our crimes_data called Community Area Name by merging chicago-community-areas.csv with our orginal dataset
 
 ```{python}
-community_areas_path = '/Users/laratamer/Desktop/final_project/chicago-community-areas.csv'
-community_areas = pd.read_csv(community_areas_path, header = None)
+community_areas = pd.read_csv('data/chicago-community-areas.csv')
 
 # Transpose the DataFrame
 community_areas = community_areas.T
+
+community_areas = community_areas.reset_index()
 
 # Set the first row as column names
 community_areas.columns = community_areas.iloc[0]
@@ -516,13 +499,15 @@ else:
     print("Available columns:", community_areas.columns)
 
 # Rename columns for clarity
-community_areas.rename(columns = {'Community Area': 'Community Area Number', 'name': 'Community Area Name'}, inplace = True)
+community_areas.rename(columns={'Community Area': 'Community Area Number',
+                                'name': 'Community Area Name'}, inplace=True)
 
 # Convert "Community Area Number" to numeric
-community_areas['Community Area Number'] = pd.to_numeric(community_areas['Community Area Number'], errors='coerce')
+community_areas['Community Area Number'] = pd.to_numeric(
+    community_areas['Community Area Number'], errors='coerce')
 
 # Reset index
-community_areas.reset_index(drop = True, inplace = True)
+community_areas.reset_index(drop=True, inplace=True)
 
 print("Processed community_areas DataFrame:")
 print(community_areas.head())
@@ -531,15 +516,15 @@ print(community_areas.head())
 ```{python}
 # Merge the datasets, ensuring the original column name 'Community Area' is retained
 crimes_data = crimes_data.merge(
-    community_areas,  
-    left_on = 'Community Area',         # Column in crimes_data
-    right_on ='Community Area Number', # Column in community_areas
-    how = 'left'                        # Preserve all rows in crimes_data
+    community_areas,
+    left_on='Community Area',         # Column in crimes_data
+    right_on='Community Area Number',  # Column in community_areas
+    how='left'                        # Preserve all rows in crimes_data
 )
 
 # Drop the redundant 'Community Area Number' column from the merge
 if 'Community Area Number' in crimes_data.columns:
-    crimes_data.drop(columns = ['Community Area Number'], inplace = True)
+    crimes_data.drop(columns=['Community Area Number'], inplace=True)
 
 # Debug: Verify columns after the merge
 print("Columns in crimes_data after merge:", crimes_data.columns)
@@ -550,10 +535,11 @@ if 'Community Area Name' not in crimes_data.columns:
 else:
     # Check for missing values in the 'Community Area Name' column
     missing_values = crimes_data['Community Area Name'].isna().sum()
-    print(f"Number of missing values in 'Community Area Name': {missing_values}")
+    print(f"Number of missing values in 'Community Area Name': {
+          missing_values}")
 
     # Exclude rows with missing 'Community Area Name'
-    crimes_data = crimes_data.dropna(subset = ['Community Area Name'])
+    crimes_data = crimes_data.dropna(subset=['Community Area Name'])
 
     # Verify the remaining dataset
     print(f"Number of rows after excluding missing values: {len(crimes_data)}")
@@ -563,10 +549,10 @@ else:
 
 Part A: Crimes grouped by year and primary type
 ```{python}
-#GROUPING CRIMES BY YEAR AND PRIMARY TYPE
+# GROUPING CRIMES BY YEAR AND PRIMARY TYPE
 
 # Ensure the 'Date' column is in datetime format
-crimes_data['Date'] = pd.to_datetime(crimes_data['Date'], errors = 'coerce')
+crimes_data['Date'] = pd.to_datetime(crimes_data['Date'], errors='coerce')
 
 # Create a copy of the original DataFrame to work on
 crimes_grouping = crimes_data.copy()
@@ -575,7 +561,8 @@ crimes_grouping = crimes_data.copy()
 crimes_grouping['Year'] = crimes_grouping['Date'].dt.year
 
 # Group by 'Year' and 'Primary Type' and count the number of occurrences
-grouped_crimes_data = crimes_grouping.groupby(['Year', 'Primary Type']).size().reset_index(name = 'Count')
+grouped_crimes_data = crimes_grouping.groupby(
+    ['Year', 'Primary Type']).size().reset_index(name='Count')
 
 # View the grouped data
 print(grouped_crimes_data.head())
@@ -618,133 +605,160 @@ plt.ylabel('Total Number of Crimes', fontsize=12)
 plt.title('Top 20 Crime Trends (Stacked)', fontsize=14)
 plt.legend(title='Crime Type', bbox_to_anchor=(1.05, 1), loc='upper left')
 plt.grid(True)
-
 plt.tight_layout()
-plt.show()
+plt.savefig("pictures/top_20_crimes_stacked.png", bbox_inches='tight', dpi=300)
+plt.close()
 ```
 
+![Top 20 Crime Trends (Stacked)]("pictures/top_20_crimes_stacked.png")
 
 ```{python}
 # Plot small multiple plots
-fig, axes = plt.subplots(nrows = 5, ncols = 4, figsize = (8, 6), sharex = True, sharey = True)
+fig, axes = plt.subplots(nrows=5, ncols=4, figsize=(
+    8, 6), sharex=True, sharey=True)
 axes = axes.flatten()
 
 for i, crime_type in enumerate(pivot_data.columns[:20]):  # only show top 20
     # Plot the crime trend
-    axes[i].plot(pivot_data.index, pivot_data[crime_type], label = crime_type)
-    
+    axes[i].plot(pivot_data.index, pivot_data[crime_type], label=crime_type)
+
     # Add a vertical line at 2020
-    axes[i].axvline(x = 2020, color = 'red', linestyle = '--', linewidth = 1, label = 'Year 2020')
-    
+    axes[i].axvline(x=2020, color='red', linestyle='--',
+                    linewidth=1, label='Year 2020')
+
     # Set title and tick label size
-    axes[i].set_title(crime_type, fontsize = 6)  
-    axes[i].tick_params(axis = 'both', which = 'major', labelsize = 6) 
-    
+    axes[i].set_title(crime_type, fontsize=6)
+    axes[i].tick_params(axis='both', which='major', labelsize=6)
+
     # Add grid
     axes[i].grid(True)
 
 # Set overall plot details
-plt.suptitle('Top 20 Crime Trends (Small Multiples)', fontsize = 12)
-plt.tight_layout(rect = [0, 0, 1, 0.96])
-plt.show()
+plt.suptitle('Top 20 Crime Trends (Small Multiples)', fontsize=12)
+plt.tight_layout(rect=[0, 0, 1, 0.96])
+plt.savefig("pictures/top_20_crimes_small.png", bbox_inches='tight', dpi=300)
+plt.close()
 ```
 
+![Top 20 Crime Trends (Small Multiples)]("pictures/top_20_crimes_small.png")
 
 Part B: Total number of crimes per year
 ```{python}
 # Ensure the 'Date' column is in datetime format
-crimes_data['Date'] = pd.to_datetime(crimes_data['Date'], errors = 'coerce')
+crimes_data['Date'] = pd.to_datetime(crimes_data['Date'], errors='coerce')
 
 # Extract the year from the 'Date' column
 crimes_data['Year'] = crimes_data['Date'].dt.year
 
 # Group data by 'Year' and count total crimes
-total_crimes_per_year = crimes_data.groupby('Year').size().reset_index(name='Total Crimes')
+total_crimes_per_year = crimes_data.groupby(
+    'Year').size().reset_index(name='Total Crimes')
 
 # Filter for years 2015 to 2023
-filtered_crimes = total_crimes_per_year[(total_crimes_per_year['Year'] >= 2015) & (total_crimes_per_year['Year'] <= 2023)]
+filtered_crimes = total_crimes_per_year[(
+    total_crimes_per_year['Year'] >= 2015) & (total_crimes_per_year['Year'] <= 2023)]
 
 # Plot the bar graph
-plt.figure(figsize = (8, 6))
-plt.bar(filtered_crimes['Year'], filtered_crimes['Total Crimes'], color = 'grey', edgecolor = 'black')
+plt.figure(figsize=(8, 6))
+plt.bar(filtered_crimes['Year'], filtered_crimes['Total Crimes'],
+        color='grey', edgecolor='black')
 
 # format the plot
-plt.xlabel('Year', fontsize = 12)
-plt.ylabel('Total Number of Crimes', fontsize = 12)
-plt.title('Total Number of Crimes Per Year (2015-2023)', fontsize = 14)
-plt.xticks(filtered_crimes['Year'], rotation = 45)  # Rotate x-axis labels if needed
-plt.grid(axis = 'y', linestyle = '--', alpha = 0.7)
+plt.xlabel('Year', fontsize=12)
+plt.ylabel('Total Number of Crimes', fontsize=12)
+plt.title('Total Number of Crimes Per Year (2015-2023)', fontsize=14)
+# Rotate x-axis labels if needed
+plt.xticks(filtered_crimes['Year'], rotation=45)
+plt.grid(axis='y', linestyle='--', alpha=0.7)
 
 # Show the plot
 plt.tight_layout()
-plt.show()
+plt.savefig("pictures/total_crimes_per_year.png", bbox_inches='tight', dpi=300)
+plt.close()
 ```
 
+![Total Number of Crimes Per Year (2015-2023)]("pictures/total_crimes_per_year.png")
 
 Part C: Most common crimes across community areas
 ```{python}
-# Group by 'Community Area', 'Community Area Name', and 'Primary Type' and count occurrences
-crimes_by_area = crimes_data.groupby(['Community Area', 'Community Area Name', 'Primary Type']).size().reset_index(name = 'Count')
+# Group by 'Community Area', 'Community Area Name', and 'Primary Type'
+# and count occurrences
+crimes_by_area = crimes_data.groupby(
+    ['Community Area', 'Community Area Name', 'Primary Type']).size(
+).reset_index(name='Count')
 
 # Sort by 'Community Area', 'Count' in descending order
-crimes_by_area_sorted = crimes_by_area.sort_values(['Community Area', 'Count'], ascending = [True, False])
+crimes_by_area_sorted = crimes_by_area.sort_values(
+    ['Community Area', 'Count'], ascending=[True, False])
 
 # Get the most common crime type for each community area
-most_common_crimes = crimes_by_area_sorted.groupby('Community Area').first().reset_index()
+most_common_crimes = crimes_by_area_sorted.groupby(
+    'Community Area').first().reset_index()
 
 print(most_common_crimes)
 ```
 
 ```{python}
 # Generate the y positions with spacing
-y_positions = np.arange(len(most_common_crimes)) * 1.5  # Add extra spacing by multiplying positions
+# Add extra spacing by multiplying positions
+y_positions = np.arange(len(most_common_crimes)) * 1.5
 
 # Assign a unique color for each Primary Type
 crime_types = most_common_crimes['Primary Type'].unique()
-colors = plt.cm.tab20(np.linspace(0, 1, len(crime_types)))  
+colors = plt.cm.tab20(np.linspace(0, 1, len(crime_types)))
 color_mapping = {crime: colors[i] for i, crime in enumerate(crime_types)}
 
 # Map colors to the bars
 bar_colors = most_common_crimes['Primary Type'].map(color_mapping)
 
 # Plot the horizontal bar chart
-plt.figure(figsize = (8, 14))
+plt.figure(figsize=(8, 14))
 bars = plt.barh(
-    y_positions, 
-    most_common_crimes['Count'], 
-    color = bar_colors, 
-    edgecolor = 'black'
+    y_positions,
+    most_common_crimes['Count'],
+    color=bar_colors,
+    edgecolor='black'
 )
 
 # Set the y-ticks to match the new positions with community area names
-plt.yticks(y_positions, most_common_crimes['Community Area Name'], fontsize = 12)
+plt.yticks(y_positions, most_common_crimes['Community Area Name'], fontsize=12)
 
 # Add a legend for the crime types
-handles = [plt.Rectangle((0, 0), 1, 1, color = color_mapping[crime]) for crime in crime_types]
-plt.legend(handles, crime_types, title = 'Primary Type', bbox_to_anchor = (1.05, 1), loc = 'upper left', fontsize = 10)
+handles = [plt.Rectangle((0, 0), 1, 1, color=color_mapping[crime])
+           for crime in crime_types]
+plt.legend(handles, crime_types, title='Primary Type',
+           bbox_to_anchor=(1.05, 1), loc='upper left', fontsize=10)
 
 # Add labels and title
-plt.xlabel('Count of Most Common Crime', fontsize = 12)
-plt.ylabel('Community Area Name', fontsize = 12)
-plt.title('Most Common Crime by Community Area (Color-Coded by Crime Type)', fontsize = 14)
+plt.xlabel('Count of Most Common Crime', fontsize=12)
+plt.ylabel('Community Area Name_x', fontsize=12)
+plt.title(
+    'Most Common Crime by Community Area (Color-Coded by Crime Type)', fontsize=14)
 
 # Add grid lines
-plt.grid(axis = 'x', linestyle = '--', alpha = 0.7)
+plt.grid(axis='x', linestyle='--', alpha=0.7)
 
 plt.tight_layout()
-plt.show()
+plt.savefig("pictures/most_common_crime.png", bbox_inches='tight', dpi=300)
+plt.close()
 ```
 
+![Most Common Crime by Community Area (Color-Coded by Crime Type)]("pictures/most_common_crime.png")
 
 I want to know the 3 top crime type across community areas and then assess the top 5 crime types across all community areas
 
 First: get top 3 crimes per community area
 ```{python}
-# Group by 'Community Area', 'Community Area Name', and 'Primary Type', and count occurrences
-crimes_by_area = crimes_data.groupby(['Community Area', 'Community Area Name', 'Primary Type']).size().reset_index(name = 'Count')
+# Group by 'Community Area', 'Community Area Name', and 'Primary Type',
+# and count occurrences
+crimes_by_area = crimes_data.groupby(
+    ['Community Area', 'Community Area Name', 'Primary Type']).size(
+
+).reset_index(name='Count')
 
 # Sort by 'Community Area' and 'Count' in descending order
-crimes_by_area_sorted = crimes_by_area.sort_values(['Community Area', 'Count'], ascending = [True, False])
+crimes_by_area_sorted = crimes_by_area.sort_values(
+    ['Community Area', 'Count'], ascending=[True, False])
 
 # Get the top 3 crimes for each community area
 top_3_crimes_by_area = crimes_by_area_sorted.groupby('Community Area').head(3)
@@ -755,11 +769,13 @@ print(top_3_crimes_by_area.head(10))
 Second: count common crimes across community areas
 ```{python}
 # Count the number of community areas in which each crime appears in the top 3
-crime_counts = top_3_crimes_by_area['Primary Type'].value_counts().reset_index()
+crime_counts = top_3_crimes_by_area['Primary Type'].value_counts(
+).reset_index()
 crime_counts.columns = ['Primary Type', 'Community Areas Count']
 
 # Sort by the number of community areas
-crime_counts_sorted = crime_counts.sort_values('Community Areas Count', ascending = False)
+crime_counts_sorted = crime_counts.sort_values(
+    'Community Areas Count', ascending=False)
 
 print(crime_counts_sorted.head(10))
 ```
@@ -767,109 +783,127 @@ print(crime_counts_sorted.head(10))
 Third: show the 5 most common crimes across community area:
 ```{python}
 # Plot the crimes that appear most in community areas' top 3
-plt.figure(figsize = (8, 6))
-plt.bar(crime_counts_sorted['Primary Type'], crime_counts_sorted['Community Areas Count'], color = 'grey', edgecolor = 'black')
+plt.figure(figsize=(8, 6))
+plt.bar(crime_counts_sorted['Primary Type'],
+        crime_counts_sorted['Community Areas Count'], color='grey', edgecolor='black')
 
 # Add labels and title
-plt.xlabel('Crime Type', fontsize = 12)
-plt.ylabel('Number of Community Areas', fontsize = 12)
-plt.title('Crimes Most Frequently in the Top 3 Across Community Areas', fontsize = 12)
-plt.xticks(rotation = 45, fontsize = 10)
-plt.grid(axis = 'y', linestyle = '--', alpha = 0.7)
-
+plt.xlabel('Crime Type', fontsize=12)
+plt.ylabel('Number of Community Areas', fontsize=12)
+plt.title('Crimes Most Frequently in the Top 3 Across Community Areas', fontsize=12)
+plt.xticks(rotation=45, fontsize=10)
+plt.grid(axis='y', linestyle='--', alpha=0.7)
 plt.tight_layout()
-plt.show()
+plt.savefig("pictures/most_common_crime_top_3.png", bbox_inches='tight', dpi=300)
+plt.close()
 ```
+
+![Crimes Most Frequently in the Top 3 Across Community Areas]("pictures/most_common_crime_top_3.png")
 
 Part C': 
 Plot showing the timings with the highest crime rates in every community area
 ```{python}
-import seaborn as sns
 
 # Create a copy of the original dataset
 crimes_data_copy = crimes_data.copy()
 
 # Merge the most common crimes back with the original dataset copy
 most_common_crimes_with_timing = most_common_crimes.merge(
-    crimes_data_copy, 
-    on = ['Community Area Name', 'Primary Type'], 
-    how = 'left'
+    crimes_data_copy,
+    on=['Community Area Name', 'Primary Type'],
+    how='left'
 )
 
 # Ensure the 'Date' column is in datetime format
-most_common_crimes_with_timing['Date'] = pd.to_datetime(most_common_crimes_with_timing['Date'], errors = 'coerce')
+most_common_crimes_with_timing['Date'] = pd.to_datetime(
+    most_common_crimes_with_timing['Date'], errors='coerce')
 
 # Extract the day, weekday, and hour from the Date column
 most_common_crimes_with_timing['Day'] = most_common_crimes_with_timing['Date'].dt.date
-most_common_crimes_with_timing['Weekday'] = most_common_crimes_with_timing['Date'].dt.day_name()
+most_common_crimes_with_timing['Weekday'] = most_common_crimes_with_timing['Date'].dt.day_name(
+)
 most_common_crimes_with_timing['Hour'] = most_common_crimes_with_timing['Date'].dt.hour
 
 # Group by 'Community Area Name', 'Primary Type', 'Day', 'Weekday', and 'Hour' to find the most frequent times
 timing_analysis = most_common_crimes_with_timing.groupby(
     ['Community Area Name', 'Primary Type', 'Day', 'Weekday', 'Hour']
-).size().reset_index(name = 'Count')
+).size().reset_index(name='Count')
 
 # Find the most common timing for each community area name
 most_common_timing = timing_analysis.loc[
-    timing_analysis.groupby(['Community Area Name', 'Primary Type'])['Count'].idxmax()
+    timing_analysis.groupby(['Community Area Name', 'Primary Type'])[
+        'Count'].idxmax()
 ]
 
 # View the results (Table of Most Common Timing)
-print(most_common_timing[['Community Area Name', 'Primary Type', 'Day', 'Weekday', 'Hour', 'Count']])
+print(most_common_timing[['Community Area Name',
+      'Primary Type', 'Day', 'Weekday', 'Hour', 'Count']])
 
 # Pivot data for heatmap visualization (Hour vs. Community Area Name)
 heatmap_data = most_common_timing.pivot_table(
-    index = 'Community Area Name', columns = 'Hour', values = 'Count', aggfunc = 'sum', fill_value = 0
+    index='Community Area Name', columns='Hour', values='Count', aggfunc='sum', fill_value=0
 )
 
 # Plot the heatmap
-plt.figure(figsize = (8, 7))
-sns.heatmap(heatmap_data, cmap = 'YlGnBu', annot = False, cbar_kws = {'label': 'Crime Count'})
-plt.title('Most Common Timing of Crimes by Community Area Name', fontsize = 16)
-plt.xlabel('Hour of the Day', fontsize = 14)
-plt.ylabel('Community Area Name', fontsize = 14)
+plt.figure(figsize=(8, 7))
+sns.heatmap(heatmap_data, cmap='YlGnBu', annot=False,
+            cbar_kws={'label': 'Crime Count'})
+plt.title('Most Common Timing of Crimes by Community Area Name', fontsize=16)
+plt.xlabel('Hour of the Day', fontsize=14)
+plt.ylabel('Community Area Name', fontsize=14)
 plt.tight_layout()
-plt.show()
+plt.savefig("pictures/most_common_time_crime.png", bbox_inches='tight', dpi=300)
+plt.close()
 
 # Pivot data for heatmap visualization (Weekday vs. Community Area Name)
 heatmap_weekday_data = most_common_timing.pivot_table(
-    index = 'Community Area Name', columns = 'Weekday', values = 'Count', aggfunc = 'sum', fill_value = 0
+    index='Community Area Name', columns='Weekday', values='Count', aggfunc='sum', fill_value=0
 )
 ```
+
+![Most Common Timing of Crimes by Community Area Name]("pictures/most_common_time_crime.png")
 
 Plot showing the week days with the highest crime rates in every community area
 ```{python}
 # Ensure weekdays are in the correct order
-weekday_order = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+weekday_order = ['Monday', 'Tuesday', 'Wednesday',
+                 'Thursday', 'Friday', 'Saturday', 'Sunday']
 heatmap_weekday_data = heatmap_weekday_data[weekday_order]
 
 # Plot the weekday heatmap
-plt.figure(figsize = (8, 7))
-sns.heatmap(heatmap_weekday_data, cmap = 'YlGnBu', annot = False, cbar_kws = {'label': 'Crime Count'})
-plt.title('Most Common Crimes by Community Area and Day of the Week', fontsize = 16)
-plt.xlabel('Day of the Week', fontsize = 14)
-plt.ylabel('Community Area Name', fontsize = 14)
+plt.figure(figsize=(8, 7))
+sns.heatmap(heatmap_weekday_data, cmap='YlGnBu',
+            annot=False, cbar_kws={'label': 'Crime Count'})
+plt.title('Most Common Crimes by Community Area and Day of the Week', fontsize=16)
+plt.xlabel('Day of the Week', fontsize=14)
+plt.ylabel('Community Area Name', fontsize=14)
 plt.tight_layout()
-plt.show()
+plt.savefig("pictures/most_common_day_crime.png", bbox_inches='tight', dpi=300)
+plt.close()
 ```
+
+![Most Common Crimes by Community Area and Day of the Week]("pictures/most_common_day_crime.png")
 
 Part D: Map showing the most common crime type across community areas
 
 Part E: common timings and dates for crimes
 ```{python}
 # Ensure the 'Date' column is in datetime format
-crimes_data['Date'] = pd.to_datetime(crimes_data['Date'], format = '%m/%d/%Y %I:%M:%S %p', errors = 'coerce')
+crimes_data['Date'] = pd.to_datetime(
+    crimes_data['Date'], format='%m/%d/%Y %I:%M:%S %p', errors='coerce')
 
 # Extract day of the week (abbreviated) and hour
-crimes_data['Day'] = crimes_data['Date'].dt.day_name().str[:2]  # Extract abbreviations (Mo, Tu, etc.)
+# Extract abbreviations (Mo, Tu, etc.)
+crimes_data['Day'] = crimes_data['Date'].dt.day_name().str[:2]
 crimes_data['Hour'] = crimes_data['Date'].dt.hour
 
 # Group by 'Day' and 'Hour', and count occurrences
-crimes_by_day_hour = crimes_data.groupby(['Day', 'Hour']).size().reset_index(name = 'Count')
+crimes_by_day_hour = crimes_data.groupby(
+    ['Day', 'Hour']).size().reset_index(name='Count')
 
 # Pivot the data for a heatmap
 heatmap_data = crimes_by_day_hour.pivot_table(
-    index = 'Day', columns = 'Hour', values = 'Count', aggfunc = 'sum', fill_value = 0
+    index='Day', columns='Hour', values='Count', aggfunc='sum', fill_value=0
 )
 
 # Reorder the days of the week (Mo, Tu, We, Th, Fr, Sa, Su)
@@ -877,26 +911,24 @@ days_order = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su']
 heatmap_data = heatmap_data.reindex(days_order)
 
 # Plot the heatmap
-plt.figure(figsize = (8, 7))
-sns.heatmap(heatmap_data, cmap = 'YlGnBu', annot = False, cbar_kws = {'label': 'Crime Count'})
-plt.title('Heatmap of Crimes by Day and Hour', fontsize = 16)
-plt.xlabel('Hour of the Day', fontsize = 14)
-plt.ylabel('Day of the Week', fontsize = 14)
+plt.figure(figsize=(8, 7))
+sns.heatmap(heatmap_data, cmap='YlGnBu', annot=False,
+            cbar_kws={'label': 'Crime Count'})
+plt.title('Heatmap of Crimes by Day and Hour', fontsize=16)
+plt.xlabel('Hour of the Day', fontsize=14)
+plt.ylabel('Day of the Week', fontsize=14)
 plt.tight_layout()
-plt.show()
+plt.savefig("pictures/heatmap.png", bbox_inches='tight', dpi=300)
+plt.close()
 ```
+
+![Most Common Crimes by Community Area and Day of the Week]("pictures/heatmap.png")
 
 Part F: 15 community areas before/after 2018-2020 vs 2021-2023
 ```{python}
-file2_path = '/Users/laratamer/Downloads/Violence_Reduction_-_Victims_of_Homicides_and_Non-Fatal_Shootings_20241125.csv'
-
-violence_reduction_data = pd.read_csv(file2_path)
+violence_reduction_data = pd.read_csv(
+    'data/Violence_Reduction_-_Victims_of_Homicides_and_Non-Fatal_Shootings_20241125.csv')
 print(violence_reduction_data.columns)
-```
-
-```{python}
-# unique_descriptions2 = violence_reduction_data['VICTIMIZATION_PRIMARY'].unique()
-# print(unique_descriptions2)
 ```
 
 According to the One Year Assess, OCOS Report we extracted the below 15 community areas (page 5/40). The OCOS violence reduction plan aims to prioritize violence reduction efforts in the 15 community areas most affected by violence over the three-year period 2018-20 (“priority community areas”), as defined by the City as “serious victimizations” (homicides and non-fatal shootings). 
@@ -914,10 +946,12 @@ priority_areas = [
 violence_reduction_data['COMMUNITY_AREA'] = violence_reduction_data['COMMUNITY_AREA'].str.title()
 
 # Ensure DATE is converted to datetime
-violence_reduction_data['DATE'] = pd.to_datetime(violence_reduction_data['DATE'], errors = 'coerce')
+violence_reduction_data['DATE'] = pd.to_datetime(
+    violence_reduction_data['DATE'], errors='coerce')
 
 # Remove rows with missing COMMUNITY_AREA
-violence_reduction_data = violence_reduction_data.dropna(subset = ['COMMUNITY_AREA'])
+violence_reduction_data = violence_reduction_data.dropna(
+    subset=['COMMUNITY_AREA'])
 
 # Filter for priority community areas only
 data_filtered_all = violence_reduction_data[
@@ -925,7 +959,7 @@ data_filtered_all = violence_reduction_data[
 ]
 
 # Extract and categorize years into periods
-data_filtered_all['Year'] = data_filtered_all['DATE'].dt.year  
+data_filtered_all['Year'] = data_filtered_all['DATE'].dt.year
 data_filtered_all['Period'] = data_filtered_all['Year'].apply(
     lambda x: '2018–2020' if 2018 <= x <= 2020 else '2021–2023' if 2021 <= x <= 2023 else None
 )
@@ -934,24 +968,28 @@ data_filtered_all['Period'] = data_filtered_all['Year'].apply(
 data_filtered_all = data_filtered_all[data_filtered_all['Period'].notna()]
 
 # Group and count incidents by community area and period
-summary_all = data_filtered_all.groupby(['COMMUNITY_AREA', 'Period']).size().reset_index(name = 'Count')
+summary_all = data_filtered_all.groupby(
+    ['COMMUNITY_AREA', 'Period']).size().reset_index(name='Count')
 
 # Bar chart before vs after for all values in VICTIMIZATION_PRIMARY
-import altair as alt
 
 chart_all = alt.Chart(summary_all).mark_bar().encode(
-    x = alt.X('COMMUNITY_AREA:N', sort = priority_areas, title = 'Priority Community Area'),
-    y = alt.Y('Count:Q', title = 'Number of Incidents'),
-    color = 'Period:N',
-    column = alt.Column('Period:N', title = 'Period')
+    x=alt.X('COMMUNITY_AREA:N', sort=priority_areas,
+            title='Priority Community Area'),
+    y=alt.Y('Count:Q', title='Number of Incidents'),
+    color='Period:N',
+    column=alt.Column('Period:N', title='Period')
 ).properties(
-    width = 300,
-    height = 400,
-    title = "Homicides and Non-Fatal Shootings Across Priority Community Areas (2018–2020 vs. 2021–2023)"
+    width=300,
+    height=400,
+    title="Homicides and Non-Fatal Shootings Across Priority Community Areas \
+         (2018–2020 vs. 2021–2023)"
 )
 
-chart_all.show()
+chart_all.save('pictures/homicides_bar.png')
 ```
+
+![Homicides and Non-Fatal Shootings Across Priority Community Areas (2018–2020 vs. 2021–2023)]('pictures/homicides_bar.png')
 
 ```{python}
 # Combine remaining community areas into a single dataset
@@ -959,7 +997,8 @@ priority_areas_set = set(priority_areas)
 all_areas = set(violence_reduction_data['COMMUNITY_AREA'].unique())
 non_priority_areas = list(all_areas - priority_areas_set)
 
-# Filter data for non-priority community areas (no filtering for specific VICTIMIZATION_PRIMARY values)
+# Filter data for non-priority community areas (no filtering for specific
+# VICTIMIZATION_PRIMARY values)
 data_filtered_non_priority_all = violence_reduction_data[
     violence_reduction_data['COMMUNITY_AREA'].isin(non_priority_areas)
 ]
@@ -971,40 +1010,48 @@ data_filtered_non_priority_all['Period'] = data_filtered_non_priority_all['Year'
 )
 
 # Remove rows outside the desired periods
-data_filtered_non_priority_all = data_filtered_non_priority_all[data_filtered_non_priority_all['Period'].notna()]
+data_filtered_non_priority_all = data_filtered_non_priority_all[
+    data_filtered_non_priority_all['Period'].notna(
+    )]
 
 # Group and count incidents by community area and period
-summary_non_priority_all = data_filtered_non_priority_all.groupby(['COMMUNITY_AREA', 'Period']).size().reset_index(name = 'Count')
+summary_non_priority_all = data_filtered_non_priority_all.groupby(
+    ['COMMUNITY_AREA', 'Period']).size().reset_index(name='Count')
 
 # Sort community areas alphabetically for consistency
-summary_non_priority_all['COMMUNITY_AREA'] = summary_non_priority_all['COMMUNITY_AREA'].astype(str)
+summary_non_priority_all['COMMUNITY_AREA'] = summary_non_priority_all[
+    'COMMUNITY_AREA'].astype(
+    str)
 summary_non_priority_all['COMMUNITY_AREA'] = pd.Categorical(
     summary_non_priority_all['COMMUNITY_AREA'],
-    categories = sorted(summary_non_priority_all['COMMUNITY_AREA'].unique()),
-    ordered = True
+    categories=sorted(summary_non_priority_all['COMMUNITY_AREA'].unique()),
+    ordered=True
 )
 
 chart_non_priority_all = alt.Chart(summary_non_priority_all).mark_bar().encode(
-    x = alt.X(
+    x=alt.X(
         'COMMUNITY_AREA:N',
-        title = 'Community Area',
-        axis = alt.Axis(labelAngle = -90, labelOverlap = True)
+        title='Community Area',
+        axis=alt.Axis(labelAngle=-90, labelOverlap=True)
     ),
-    y = alt.Y(
+    y=alt.Y(
         'Count:Q',
-        title = 'Number of Incidents'
+        title='Number of Incidents'
     ),
-    color = alt.Color(
+    color=alt.Color(
         'Period:N',
-        title = 'Time Period',
-        scale = alt.Scale(domain = ['2018–2020', '2021–2023'], range = ['#4C78A8', '#F58518']) 
+        title='Time Period',
+        scale=alt.Scale(domain=['2018–2020', '2021–2023'],
+                        range=['#4C78A8', '#F58518'])
     )
 ).properties(
-    width = 600,  # Extend width to accommodate 62+ community areas
-    height = 500,
-    title = "Homicides and Non-Fatal Shootings Across Non-Priority Community Areas (2018–2020 vs. 2021–2023)"
+    width=600,  # Extend width to accommodate 62+ community areas
+    height=500,
+    title="Homicides and Non-Fatal Shootings Across Non-Priority Community Areas \
+        (2018–2020 vs. 2021–2023)"
 )
 
-chart_non_priority_all.show()
+chart_non_priority_all.save('pictures/homicides_bar_np.png')
 ```
 
+![Homicides and Non-Fatal Shootings Across Non-Priority Community Areas (2018–2020 vs. 2021–2023)]('pictures/homicides_bar_np.png')

@@ -14,6 +14,8 @@ from shapely import wkt
 from termcolor import colored
 from shiny import App, render, ui, reactive
 
+# In the second section (def server), update paths!!
+
 app_ui = ui.page_fluid(
      ui.div(
             # Section for the main picture for the DashBoard.
@@ -115,8 +117,11 @@ app_ui = ui.page_fluid(
 def server(input, output, session):
     
     # Setting up all necessary path and objects
-    pictures_path = "N:/3 MES DOSSIERS SECONDAIRES/MASTER PREPARATION PROGRAM/University of Chicago/DAP II/Pics_final_project"
-    data_base_path = "N:/3 MES DOSSIERS SECONDAIRES/MASTER PREPARATION PROGRAM/University of Chicago/DAP II/final_project"
+    # Update Path
+    pictures_path = "C:/Users/Jakub/OneDrive/Documents/GitHub/final_project/pictures"
+    data_base_path = "C:/Users/Jakub/OneDrive/Documents/GitHub/final_project/data"
+    base_path = 'C:/Users/Jakub/Downloads/final_data'
+
     vrs_community = ["AUSTIN", "NORTH LAWNDALE", "HUMBOLDT PARK", "WEST GARFIELD PARK",
                      "ENGLEWOOD", "AUBURN GRESHAM", "WEST ENGLEWOOD", "GREATER GRAND CROSSING",
                      "ROSELAND", "EAST GARFIELD PARK", "SOUTH SHORE", "CHICAGO LAWN",
@@ -166,7 +171,7 @@ def server(input, output, session):
         # Reading the full dataset for the crimes in Chicago from 2015 to 2024 (last upades: 11/27/2024)
         # Function initalized with a kwargs, in case the file type might change later on
         if filetype == 'csv':
-            crimes = pd.read_csv(f'{data_base_path}/Crimes_-_2001_to_Present_20241127.csv')
+            crimes = pd.read_csv(f'{base_path}/Crimes_-_2001_to_Present_20241127.csv')
         else:
             print('Please convert the file to .csv type.')
         crimes['Date'] = pd.to_datetime(crimes['Date'], format = '%m/%d/%Y %I:%M:%S %p')
