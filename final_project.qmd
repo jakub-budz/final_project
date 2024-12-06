@@ -17,7 +17,7 @@ execute:
 # https://drive.google.com/drive/folders/1dFGQ71CesghWY5dWehwiumX57TJQiykV
 
 # Base path (EACH PERSON MUST UPDATE TO WHERE THEIR CRIME DATA IS)
-base_path = 'C:/Users/Jakub/Downloads/final_data'
+base_path = '/Users/laratamer/Desktop'
 ```
 
 ```{python}
@@ -536,8 +536,7 @@ if 'Community Area Name' not in crimes_data.columns:
 else:
     # Check for missing values in the 'Community Area Name' column
     missing_values = crimes_data['Community Area Name'].isna().sum()
-    print(f"Number of missing values in 'Community Area Name': {
-          missing_values}")
+    print(f"Number of missing values in 'Community Area Name': {missing_values}")
 
     # Exclude rows with missing 'Community Area Name'
     crimes_data = crimes_data.dropna(subset=['Community Area Name'])
@@ -885,9 +884,7 @@ plt.close()
 
 ![Most Common Crimes by Community Area and Day of the Week]("pictures/most_common_day_crime.png")
 
-Part D: Map showing the most common crime type across community areas
-
-Part E: common timings and dates for crimes
+Part D: common timings and dates for crimes
 ```{python}
 # Ensure the 'Date' column is in datetime format
 crimes_data['Date'] = pd.to_datetime(
@@ -925,7 +922,7 @@ plt.close()
 
 ![Most Common Crimes by Community Area and Day of the Week]("pictures/heatmap.png")
 
-Part F: 15 community areas before/after 2018-2020 vs 2021-2023
+Part E: 15 community areas before/after 2018-2020 vs 2021-2023
 ```{python}
 violence_reduction_data = pd.read_csv(
     'data/Violence_Reduction_-_Victims_of_Homicides_and_Non-Fatal_Shootings_20241125.csv')
