@@ -7,7 +7,7 @@ format:
     code-overflow: wrap
 execute:
   eval: true
-  echo: true
+  echo: false
   warning: false
   error: false
 ---
@@ -17,7 +17,7 @@ execute:
 # https://drive.google.com/drive/folders/1dFGQ71CesghWY5dWehwiumX57TJQiykV
 
 # Base path (EACH PERSON MUST UPDATE TO WHERE THEIR CRIME DATA IS)
-base_path = '/Users/laratamer/Desktop'
+base_path = "C:/Users/Jakub/Downloads/final_data"
 ```
 
 ```{python}
@@ -64,8 +64,8 @@ def analyze_text(file_name):
                'subtitle': [
             f'Section Polarity: {polarity:.2f}',
             f'Section Subjectivity: {subjectivity:.2f}']},
-        width=100,
-        height=100
+        width=50,
+        height=50
     )
     return chart
 ```
@@ -113,9 +113,8 @@ row3 = alt.hconcat(p3_chart, p4_chart, p5_chart)
 
 combined_chart = alt.vconcat(row1, row2, row3)
 combined_chart.save('pictures/combined_chart.png')
+# ![NLP Chart]("pictures/combined_chart.png")
 ```
-
-![NLP Chart]("pictures/combined_chart.png")
 
 ```{python}
 # Load in the CSV files
@@ -162,7 +161,7 @@ chicago_gdf["crime_count"] = chicago_gdf["crime_count"].fillna(0)
 
 ```{python}
 # Plot total crime per community area
-fig, ax = plt.subplots(figsize=(10, 10))
+fig, ax = plt.subplots(figsize=(5, 5))
 
 chicago_gdf.plot(
     column="crime_count",
@@ -194,9 +193,9 @@ for spine in ax.spines.values():
 plt.title("Total Crime Count by Community Area in Chicago (Jan 2015 to Nov 2024)")
 plt.savefig("pictures/comm_crime_total.png", bbox_inches='tight', dpi=300)
 plt.close()
-```
 
-![Total Crime Count by Community Area in Chicago (Jan 2015 to Nov 2024)]("pictures/comm_crime_total.png")
+# ![Total Crime Count by Community Area in Chicago (Jan 2015 to Nov 2024)]("pictures/comm_crime_total.png")
+```
 
 ```{python}
 # Filter the data to just those 15 VRS communities
@@ -208,7 +207,7 @@ vrs_community = ["AUSTIN", "NORTH LAWNDALE", "HUMBOLDT PARK", "WEST GARFIELD PAR
 vrs_gdf = chicago_gdf[chicago_gdf["COMMUNITY"].isin(vrs_community)]
 
 # Plot total crime in VRS communities
-fig, ax = plt.subplots(figsize=(10, 10))
+fig, ax = plt.subplots(figsize=(5, 5))
 
 chicago_gdf.plot(ax=ax, color='lightgrey', edgecolor='black')
 
@@ -241,9 +240,9 @@ for spine in ax.spines.values():
 plt.title("Total Crime Count by VRS Community Area in Chicago (Jan 2015 to Nov 2024)")
 plt.savefig("pictures/vrs_comm_crime_total.png", bbox_inches='tight', dpi=300)
 plt.close()
-```
 
-![Total Crime Count by VRS Community Area in Chicago (Jan 2015 to Nov 2024)]("pictures/vrs_comm_crime_total.png")
+# ![Total Crime Count by VRS Community Area in Chicago (Jan 2015 to Nov 2024)]("pictures/vrs_comm_crime_total.png")
+```
 
 ```{python}
 crimes_2018_2020 = crimes[(crimes['Date'] >= '2018-01-01')
@@ -284,7 +283,7 @@ chicago_2021_2023_gdf["crime_count"] = chicago_2021_2023_gdf["crime_count"].fill
 ```
 
 ```{python}
-fig, ax = plt.subplots(figsize=(10, 10))
+fig, ax = plt.subplots(figsize=(5, 5))
 
 chicago_2018_2020_gdf.plot(
     column="crime_count",
@@ -316,12 +315,12 @@ plt.title("Total Crime Count by Community Area in Chicago (2018 to 2020)")
 plt.savefig("pictures/comm_crime_total_18_20.png",
             bbox_inches='tight', dpi=300)
 plt.close()
+
+# ![Total Crime Count by Community Area in Chicago (2018 to 2020)]("pictures/comm_crime_total_18_20.png")
 ```
 
-![Total Crime Count by Community Area in Chicago (2018 to 2020)]("pictures/comm_crime_total_18_20.png")
-
 ```{python}
-fig, ax = plt.subplots(figsize=(10, 10))
+fig, ax = plt.subplots(figsize=(5, 5))
 
 chicago_2021_2023_gdf.plot(
     column="crime_count",
@@ -353,9 +352,9 @@ plt.title("Total Crime Count by Community Area in Chicago (2021 to 2023)")
 plt.savefig("pictures/comm_crime_total_21_23.png",
             bbox_inches='tight', dpi=300)
 plt.close()
-```
 
-![Total Crime Count by Community Area in Chicago (2021 to 2023)]("pictures/comm_crime_total_21_23.png")
+# ![Total Crime Count by Community Area in Chicago (2021 to 2023)]("pictures/comm_crime_total_21_23.png")
+```
 
 ```{python}
 diff_gdf = chicago_2021_2023_gdf[['AREA_NUM_1', 'crime_count', 'the_geom']].merge(
@@ -370,7 +369,7 @@ diff_gdf = diff_gdf.rename(columns={'the_geom_2021_2023': 'the_geom'})
 ```
 
 ```{python}                
-fig, ax = plt.subplots(figsize=(10, 10))
+fig, ax = plt.subplots(figsize=(5, 5))
 
 diff_gdf.plot(
     column="crime_diff",
@@ -400,9 +399,9 @@ plt.title(
     "Difference in Total Crime Count by Community Area (2018-2020 to 2021-2023)")
 plt.savefig("pictures/comm_crime_diff.png", bbox_inches='tight', dpi=300)
 plt.close()
-```
 
-![Difference in Total Crime Count by Community Area (2018-2020 to 2021-2023)]("pictures/comm_crime_diff.png")
+# ![Difference in Total Crime Count by Community Area (2018-2020 to 2021-2023)]("pictures/comm_crime_diff.png")
+```
 
 ```{python}
 if isinstance(vrs_community, list):
@@ -420,7 +419,7 @@ vrs_diff_gdf = pd.merge(
 ```
 
 ```{python}
-fig, ax = plt.subplots(figsize=(10, 10))
+fig, ax = plt.subplots(figsize=(5, 5))
 
 chicago_gdf.plot(ax=ax, color='lightgrey', edgecolor='black')
 
@@ -453,29 +452,28 @@ plt.title(
     "Difference in Total Crime Count by VRS Community Area (2018-2020 to 2021-2023)")
 plt.savefig("pictures/vrs_comm_crime_diff.png", bbox_inches='tight', dpi=300)
 plt.close()
-```
 
-![Difference in Total Crime Count by VRS Community Area (2018-2020 to 2021-2023)]("pictures/vrs_comm_crime_diff.png")
+# ![Difference in Total Crime Count by VRS Community Area (2018-2020 to 2021-2023)]("pictures/vrs_comm_crime_diff.png")
+```
 
 ```{python}
 crimes_data = pd.read_csv(f'{base_path}/Crimes_-_2001_to_Present_20241127.csv')
-print(crimes_data.columns)
 ```
 
 ```{python}
 crimes_data['Date'] = pd.to_datetime(crimes_data['Date'], errors='coerce')
 ```
 
-Replace CRIM SEXUAL ASSAULT with CRIMINIAL SEXUAL ASSAULT
 ```{python}
+# Replace CRIM SEXUAL ASSAULT with CRIMINIAL SEXUAL ASSAULT
 crimes_data['Primary Type'] = crimes_data['Primary Type'].replace(
     'CRIM SEXUAL ASSAULT', 'CRIMINAL SEXUAL ASSAULT'
 )
 ```
 
-Added a new column to our crimes_data called Community Area Name by merging chicago-community-areas.csv with our orginal dataset
-
 ```{python}
+# Added a new column to our crimes_data called Community Area Name
+#  by merging chicago-community-areas.csv with our orginal dataset
 community_areas = pd.read_csv('data/chicago-community-areas.csv')
 
 # Transpose the DataFrame
@@ -490,7 +488,7 @@ community_areas.columns = community_areas.iloc[0]
 community_areas = community_areas[1:]
 
 # Debug: Print the current column names
-print("Columns after setting headers:", community_areas.columns)
+# print("Columns after setting headers:", community_areas.columns)
 
 # Select only the `Community Area` and `name` columns
 if 'Community Area' in community_areas.columns and 'name' in community_areas.columns:
@@ -509,9 +507,6 @@ community_areas['Community Area Number'] = pd.to_numeric(
 
 # Reset index
 community_areas.reset_index(drop=True, inplace=True)
-
-print("Processed community_areas DataFrame:")
-print(community_areas.head())
 ```
 
 ```{python}
@@ -528,7 +523,7 @@ if 'Community Area Number' in crimes_data.columns:
     crimes_data.drop(columns=['Community Area Number'], inplace=True)
 
 # Debug: Verify columns after the merge
-print("Columns in crimes_data after merge:", crimes_data.columns)
+# print("Columns in crimes_data after merge:", crimes_data.columns)
 
 # Check if 'Community Area Name' exists
 if 'Community Area Name' not in crimes_data.columns:
@@ -536,20 +531,19 @@ if 'Community Area Name' not in crimes_data.columns:
 else:
     # Check for missing values in the 'Community Area Name' column
     missing_values = crimes_data['Community Area Name'].isna().sum()
-    print(f"Number of missing values in 'Community Area Name': {missing_values}")
+#    print(f"Number of missing values in 'Community Area Name': {missing_values}")
 
     # Exclude rows with missing 'Community Area Name'
     crimes_data = crimes_data.dropna(subset=['Community Area Name'])
 
     # Verify the remaining dataset
-    print(f"Number of rows after excluding missing values: {len(crimes_data)}")
-    print("Sample data:")
-    print(crimes_data[['Community Area', 'Community Area Name']].head())
+#    print(f"Number of rows after excluding missing values: {len(crimes_data)}")
+#    print("Sample data:")
+#    print(crimes_data[['Community Area', 'Community Area Name']].head())
 ```
 
-Part A: Crimes grouped by year and primary type
 ```{python}
-# GROUPING CRIMES BY YEAR AND PRIMARY TYPE
+# Part A: Crimes grouped by year and primary type
 
 # Ensure the 'Date' column is in datetime format
 crimes_data['Date'] = pd.to_datetime(crimes_data['Date'], errors='coerce')
@@ -563,9 +557,6 @@ crimes_grouping['Year'] = crimes_grouping['Date'].dt.year
 # Group by 'Year' and 'Primary Type' and count the number of occurrences
 grouped_crimes_data = crimes_grouping.groupby(
     ['Year', 'Primary Type']).size().reset_index(name='Count')
-
-# View the grouped data
-print(grouped_crimes_data.head())
 ```
 
 ```{python}
@@ -608,9 +599,9 @@ plt.grid(True)
 plt.tight_layout()
 plt.savefig("pictures/top_20_crimes_stacked.png", bbox_inches='tight', dpi=300)
 plt.close()
-```
 
-![Top 20 Crime Trends (Stacked)]("pictures/top_20_crimes_stacked.png")
+# ![Top 20 Crime Trends (Stacked)]("pictures/top_20_crimes_stacked.png")
+```
 
 ```{python}
 # Plot small multiple plots
@@ -638,12 +629,12 @@ plt.suptitle('Top 20 Crime Trends (Small Multiples)', fontsize=12)
 plt.tight_layout(rect=[0, 0, 1, 0.96])
 plt.savefig("pictures/top_20_crimes_small.png", bbox_inches='tight', dpi=300)
 plt.close()
+
+# ![Top 20 Crime Trends (Small Multiples)]("pictures/top_20_crimes_small.png")
 ```
 
-![Top 20 Crime Trends (Small Multiples)]("pictures/top_20_crimes_small.png")
-
-Part B: Total number of crimes per year
 ```{python}
+# Part B: Total number of crimes per year
 # Ensure the 'Date' column is in datetime format
 crimes_data['Date'] = pd.to_datetime(crimes_data['Date'], errors='coerce')
 
@@ -675,12 +666,12 @@ plt.grid(axis='y', linestyle='--', alpha=0.7)
 plt.tight_layout()
 plt.savefig("pictures/total_crimes_per_year.png", bbox_inches='tight', dpi=300)
 plt.close()
+
+# ![Total Number of Crimes Per Year (2015-2023)]("pictures/total_crimes_per_year.png")
 ```
 
-![Total Number of Crimes Per Year (2015-2023)]("pictures/total_crimes_per_year.png")
-
-Part C: Most common crimes across community areas
 ```{python}
+# Part C: Most common crimes across community areas
 # Group by 'Community Area', 'Community Area Name', and 'Primary Type'
 # and count occurrences
 crimes_by_area = crimes_data.groupby(
@@ -694,8 +685,6 @@ crimes_by_area_sorted = crimes_by_area.sort_values(
 # Get the most common crime type for each community area
 most_common_crimes = crimes_by_area_sorted.groupby(
     'Community Area').first().reset_index()
-
-print(most_common_crimes)
 ```
 
 ```{python}
@@ -731,7 +720,7 @@ plt.legend(handles, crime_types, title='Primary Type',
 
 # Add labels and title
 plt.xlabel('Count of Most Common Crime', fontsize=12)
-plt.ylabel('Community Area Name_x', fontsize=12)
+plt.ylabel('Community Area Name', fontsize=12)
 plt.title(
     'Most Common Crime by Community Area (Color-Coded by Crime Type)', fontsize=14)
 
@@ -741,14 +730,14 @@ plt.grid(axis='x', linestyle='--', alpha=0.7)
 plt.tight_layout()
 plt.savefig("pictures/most_common_crime.png", bbox_inches='tight', dpi=300)
 plt.close()
+
+# ![Most Common Crime by Community Area (Color-Coded by Crime Type)]("pictures/most_common_crime.png")
 ```
 
-![Most Common Crime by Community Area (Color-Coded by Crime Type)]("pictures/most_common_crime.png")
-
-I want to know the 3 top crime type across community areas and then assess the top 5 crime types across all community areas
-
-First: get top 3 crimes per community area
 ```{python}
+# I want to know the 3 top crime type across community areas 
+# and then assess the top 5 crime types across all community areas
+# First: get top 3 crimes per community area
 # Group by 'Community Area', 'Community Area Name', and 'Primary Type',
 # and count occurrences
 crimes_by_area = crimes_data.groupby(
@@ -762,12 +751,10 @@ crimes_by_area_sorted = crimes_by_area.sort_values(
 
 # Get the top 3 crimes for each community area
 top_3_crimes_by_area = crimes_by_area_sorted.groupby('Community Area').head(3)
-
-print(top_3_crimes_by_area.head(10))
 ```
 
-Second: count common crimes across community areas
 ```{python}
+# Second: count common crimes across community areas
 # Count the number of community areas in which each crime appears in the top 3
 crime_counts = top_3_crimes_by_area['Primary Type'].value_counts(
 ).reset_index()
@@ -776,12 +763,10 @@ crime_counts.columns = ['Primary Type', 'Community Areas Count']
 # Sort by the number of community areas
 crime_counts_sorted = crime_counts.sort_values(
     'Community Areas Count', ascending=False)
-
-print(crime_counts_sorted.head(10))
 ```
 
-Third: show the 5 most common crimes across community area:
 ```{python}
+# Third: show the 5 most common crimes across community area:
 # Plot the crimes that appear most in community areas' top 3
 plt.figure(figsize=(8, 6))
 plt.bar(crime_counts_sorted['Primary Type'],
@@ -796,14 +781,13 @@ plt.grid(axis='y', linestyle='--', alpha=0.7)
 plt.tight_layout()
 plt.savefig("pictures/most_common_crime_top_3.png", bbox_inches='tight', dpi=300)
 plt.close()
+
+# ![Crimes Most Frequently in the Top 3 Across Community Areas]("pictures/most_common_crime_top_3.png")
 ```
 
-![Crimes Most Frequently in the Top 3 Across Community Areas]("pictures/most_common_crime_top_3.png")
-
-Part C': 
-Plot showing the timings with the highest crime rates in every community area
 ```{python}
-
+# Part C: Plot showing the timings with the highest crime rates in 
+# every community area
 # Create a copy of the original dataset
 crimes_data_copy = crimes_data.copy()
 
@@ -836,8 +820,8 @@ most_common_timing = timing_analysis.loc[
 ]
 
 # View the results (Table of Most Common Timing)
-print(most_common_timing[['Community Area Name',
-      'Primary Type', 'Day', 'Weekday', 'Hour', 'Count']])
+#print(most_common_timing[['Community Area Name', 
+# 'Primary Type', 'Day', 'Weekday', 'Hour', 'Count']])
 
 # Pivot data for heatmap visualization (Hour vs. Community Area Name)
 heatmap_data = most_common_timing.pivot_table(
@@ -859,12 +843,13 @@ plt.close()
 heatmap_weekday_data = most_common_timing.pivot_table(
     index='Community Area Name', columns='Weekday', values='Count', aggfunc='sum', fill_value=0
 )
+
+# ![Most Common Timing of Crimes by Community Area Name]("pictures/most_common_time_crime.png")
 ```
 
-![Most Common Timing of Crimes by Community Area Name]("pictures/most_common_time_crime.png")
-
-Plot showing the week days with the highest crime rates in every community area
 ```{python}
+# Plot showing the week days with the highest crime rates in 
+# every community area
 # Ensure weekdays are in the correct order
 weekday_order = ['Monday', 'Tuesday', 'Wednesday',
                  'Thursday', 'Friday', 'Saturday', 'Sunday']
@@ -880,12 +865,12 @@ plt.ylabel('Community Area Name', fontsize=14)
 plt.tight_layout()
 plt.savefig("pictures/most_common_day_crime.png", bbox_inches='tight', dpi=300)
 plt.close()
+
+# ![Most Common Crimes by Community Area and Day of the Week]("pictures/most_common_day_crime.png")
 ```
 
-![Most Common Crimes by Community Area and Day of the Week]("pictures/most_common_day_crime.png")
-
-Part D: common timings and dates for crimes
 ```{python}
+# Part D: common timings and dates for crimes
 # Ensure the 'Date' column is in datetime format
 crimes_data['Date'] = pd.to_datetime(
     crimes_data['Date'], format='%m/%d/%Y %I:%M:%S %p', errors='coerce')
@@ -918,20 +903,22 @@ plt.ylabel('Day of the Week', fontsize=14)
 plt.tight_layout()
 plt.savefig("pictures/heatmap.png", bbox_inches='tight', dpi=300)
 plt.close()
+
+# ![Most Common Crimes by Community Area and Day of the Week]("pictures/heatmap.png")
 ```
 
-![Most Common Crimes by Community Area and Day of the Week]("pictures/heatmap.png")
-
-Part E: 15 community areas before/after 2018-2020 vs 2021-2023
 ```{python}
+# Part E: 15 community areas before/after 2018-2020 vs 2021-2023
 violence_reduction_data = pd.read_csv(
     'data/Violence_Reduction_-_Victims_of_Homicides_and_Non-Fatal_Shootings_20241125.csv')
-print(violence_reduction_data.columns)
 ```
 
-According to the One Year Assess, OCOS Report we extracted the below 15 community areas (page 5/40). The OCOS violence reduction plan aims to prioritize violence reduction efforts in the 15 community areas most affected by violence over the three-year period 2018-20 (“priority community areas”), as defined by the City as “serious victimizations” (homicides and non-fatal shootings). 
-
 ```{python}
+# According to the One Year Assess, OCOS Report we extracted the below 15 
+# community areas (page 5/40). The OCOS violence reduction plan aims to prioritize 
+# violence reduction efforts in the 15 community areas most affected by violence 
+# over the three-year period 2018-20 (“priority community areas”), as defined by 
+# the City as “serious victimizations” (homicides and non-fatal shootings). 
 # Define priority areas by referring to the report
 priority_areas = [
     "Auburn Gresham", "Austin", "Chatham", "Chicago Lawn", "East Garfield Park",
@@ -985,9 +972,9 @@ chart_all = alt.Chart(summary_all).mark_bar().encode(
 )
 
 chart_all.save('pictures/homicides_bar.png')
-```
 
-![Homicides and Non-Fatal Shootings Across Priority Community Areas (2018–2020 vs. 2021–2023)]("pictures/homicides_bar.png")
+# ![Homicides and Non-Fatal Shootings Across Priority Community Areas (2018–2020 vs. 2021–2023)]("pictures/homicides_bar.png")
+```
 
 ```{python}
 # Combine remaining community areas into a single dataset
@@ -1050,6 +1037,48 @@ chart_non_priority_all = alt.Chart(summary_non_priority_all).mark_bar().encode(
 )
 
 chart_non_priority_all.save('pictures/homicides_bar_np.png')
+
+# ![Homicides and Non-Fatal Shootings Across Non-Priority Community Areas (2018–2020 vs. 2021–2023)]("pictures/homicides_bar_np.png")
 ```
 
-![Homicides and Non-Fatal Shootings Across Non-Priority Community Areas (2018–2020 vs. 2021–2023)]("pictures/homicides_bar_np.png")
+# Write-Up
+## Research question
+Our Question: To what extent has the City of Chicago's Violence Reduction Plan contributed to a measurable decrease in crime rates across community areas and how have crime trends evolved over time in response to its implementation? 
+
+We originally wanted to explore how the Violence Reduction Plan affected crime rates in Chicago, but soon realized that, in the wake of COVID-19, that was an impossible question to answer since it was implemented in September of 2020. Instead, we explored crime rate data in the 3 year periods before and after implementation (2018-2020 & 2021-2023). We knew at this point that if crime rates stayed, on average, the same across those two periods, that the VRS did not accomplish its goals. However, if we found that crime rates dropped and remained lower, that could potentially indicate some effectiveness. What we found was that crime rates rebounded back to their original levels in most parts of the city. Another key part of our question was the difference between community areas that were prioritized vs those that weren't. What we found here was that the priority areas saw much greater reductions in crime and, concurrently, remained lower than other areas. 
+
+## Our Approach, Code, and Plots
+### Natural Language Processing
+The City of Chicago released a report of the VRS one year after its implementation. We used the natural language processing tools we developed to analyze the City's general use of languauge when discussing the Plan's effectiveness. We found that the report overall had a more positive polarity and a neutral subjectivity, meaning that the City was generally positive about the data, its results, and their methods, all the while remaining fairly objective. This indicates that the City felt generally good about the project and wanted to portray a positive message. 
+
+[insert plot]
+
+### Geomapping 
+To get to the key differences between the priority areas and non-prority areas, we used City of Chicago community area geodata, merged with City of Chicago crime data, to create a map of total crime in the last 10 years. Another map was created that filtered only the priority areas. What we saw from these maps is that the areas that the City chose to focus on were generally alligned with the highest crime areas we found. Then, we wanted to see the differences across those aforementioned time periods, so we made maps of total crimes across community areas for both and compared. What we found was that crimes were slightly lower across Chicago, but not my much. Because we were relying on distinguishing different shades of colors, it was not entirely clear. So, we then took the differences of crime in all community areas and plotted that. What we found here again was that crime had generally stayed consistent across all of Chicago, and some increased. We then filtered down to just the priority areas and found that they attributed for the greatest decreases across the city. 
+
+[insert plot]
+
+### Top 20 Crime Types
+Our next logical step was to see what was going on with each crime type and what could be contributing to these changes. So, we plotted a stacked graph with the top 20 crime types and saw that the majority of them decreased between 2019 to 2021, but then rebounded back to the same rates by 2023. Since we only had data through November of 2024, the 2024 column looked smaller than 2023, but could have been closer if we had the full year. We also took each of these 20 trends and plotted them separately to look at it from a different angle. Regardless, it now appeared to us that the VRS did not have much of an effect since crimes rebounded back right after the COVID lockdowns ended. To confirm this is a uniform trend and not just the top 20, we plotted total crimes for the last 10 years and found the same trend: crimes began decreasing in 2019 and were back to their highs in 2023. 
+
+[insert plot]
+
+### More Specific Lens
+Next, we looked at each community to find their greatest crime type. Unsurprisingly, theft and battery dominated every community. To confirm, we found and plotted the crimes most frequently in the Top 3 crimes and found the same answer. These plot, though informative in general, don't contribute much to our analysis, so we looked to heatmaps. 
+We created heatmaps to find when crimes were happening on the hour and day levels across communities and across all of Chicago. We found that crimes happen most often on weekends, at midnight and at noon, the last of which was surprising.
+Lastly, we looked at homicides and non-fatal shootings from the Violent Crimes dataset and found the same trends: crimes did not drop after VRS implementation, but also did not drop after COVID lockdowns in priority and non-priority communities. 
+
+[insert plot]
+
+## Weaknesses and Difficulties
+The primary weakness in our analysis and exploration stems from the fact that COVID was co-occuring with VRS measures. However, we feel that we overcame this because we saw that most crimes either did not decrease, or rebounded right back to pre-COVID levels after lockdowns, indicating that the VRS was not effective on a city-wide level. 
+
+[insert plot]
+
+## Shiny
+Our shiny app took all of the plots we developed and allowed us to filter them down to individual communities or years. This was helpful because we could see how trends evolved over time, not just what they are staticly in each time period. Some interesting observations include the shift of time of crime. Prior to COVID and the VRS, crimes occurec primarily at night (midnight precisely), but after they occured much more frequently at noon. We also saw that the areas with the most crime (priority) did in fact see the greatest crime declines. 
+
+## Policy Implications
+
+
+## Discussion
