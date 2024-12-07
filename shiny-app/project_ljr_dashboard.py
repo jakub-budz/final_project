@@ -118,9 +118,11 @@ def server(input, output, session):
     
     # Setting up all necessary path and objects
     # Update Path
-    pictures_path = "C:/Users/Jakub/OneDrive/Documents/GitHub/final_project/pictures"
-    data_base_path = "C:/Users/Jakub/OneDrive/Documents/GitHub/final_project/data"
-    base_path = 'C:/Users/Jakub/Downloads/final_data'
+    pictures_path = "C:/Users/Jakub/OneDrive/Documents/GitHub/final_project/pictures" # Update this path to acces the images
+    data_base_path = "C:/Users/Jakub/OneDrive/Documents/GitHub/final_project/data" # Update this path to other datasets
+    base_path = 'C:/Users/Jakub/Downloads/final_data' # Update this path to acces the large datasets
+    # Larger dataset here: 
+    # https://drive.google.com/drive/folders/1dFGQ71CesghWY5dWehwiumX57TJQiykV
 
     vrs_community = ["AUSTIN", "NORTH LAWNDALE", "HUMBOLDT PARK", "WEST GARFIELD PARK",
                      "ENGLEWOOD", "AUBURN GRESHAM", "WEST ENGLEWOOD", "GREATER GRAND CROSSING",
