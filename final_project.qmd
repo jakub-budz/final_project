@@ -1,10 +1,13 @@
 ---
-title: "Final Project"
-author: "Lara Tamer (ltamer - section 3), Ralph Valery Valiere (ralphvaleryv - section 2), Jakub Budz (jbudz - section 1)"
+title: "Final Project- Write up"
+author: "Lara Tamer (ltamer - Section 3), Ralph Valery Valiere (ralphvaleryv - Section 2), Jakub Budz (jbudz - Section 1)"
 date: "December 7, 2024"
 format:
   pdf:
     code-overflow: wrap
+    fontsize: 8pt
+    geometry: margin=0.5in
+
 execute:
   eval: true
   echo: false
@@ -17,7 +20,7 @@ execute:
 # https://drive.google.com/drive/folders/1dFGQ71CesghWY5dWehwiumX57TJQiykV
 
 # Base path (EACH PERSON MUST UPDATE TO WHERE THEIR CRIME DATA IS)
-base_path = '/Users/laratamer/Desktop'
+base_path = "N:/3 MES DOSSIERS SECONDAIRES/MASTER PREPARATION PROGRAM/University of Chicago/DAP II/final_project"
 ```
 
 ```{python}
@@ -64,13 +67,13 @@ def analyze_text(file_name):
                'subtitle': [
             f'Section Polarity: {polarity:.2f}',
             f'Section Subjectivity: {subjectivity:.2f}']},
-        width=50,
+        width=155,
         height=50
     )
     return chart
 ```
 
-```{python}
+```{python} 
 # Intro
 intro_path = 'data/intro.txt'
 intro_chart = analyze_text(intro_path)
@@ -369,7 +372,7 @@ diff_gdf = diff_gdf.rename(columns={'the_geom_2021_2023': 'the_geom'})
 ```
 
 ```{python}                
-fig, ax = plt.subplots(figsize=(5, 5))
+graph_diff, ax = plt.subplots(figsize=(5, 4))
 
 diff_gdf.plot(
     column="crime_diff",
@@ -388,7 +391,7 @@ for idx, row in diff_gdf.iterrows():
         text=str(row["AREA_NUM_1"]),
         xy=(centroid.x, centroid.y),
         horizontalalignment="center",
-        fontsize=8,
+        fontsize=5.5,
         color="black"
     )
 ax.axis("off")
@@ -396,8 +399,9 @@ for spine in ax.spines.values():
     spine.set_visible(False)
 
 plt.title(
-    "Difference in Total Crime Count by Community Area (2018-2020 to 2021-2023)")
+    "Difference in Total Crime Count by Community Area (2018-2020 to 2021-2023)", pad=12)
 plt.savefig("pictures/comm_crime_diff.png", bbox_inches='tight', dpi=300)
+
 plt.close()
 
 # ![Difference in Total Crime Count by Community Area (2018-2020 to 2021-2023)]("pictures/comm_crime_diff.png")
@@ -457,7 +461,8 @@ plt.close()
 ```
 
 ```{python}
-crimes_data = pd.read_csv(f'{base_path}/Crimes_-_2001_to_Present_20241127.csv')
+# Creating a copy of the large dataset for the next section.
+crimes_data = crimes
 ```
 
 ```{python}
@@ -578,7 +583,7 @@ pivot_data = filtered_grouped_data.pivot(
     index='Year', columns='Primary Type', values='Count').fillna(0)
 
 # plot stacked area chart
-plt.figure(figsize=(8, 6))
+graph_top20_crime = plt.figure(figsize=(9.5, 4))
 pivot_data.plot.area(ax=plt.gca(), cmap='tab20', alpha=0.8)
 
 # Added vertical lines at the year 2019, 2020, 2021
@@ -594,7 +599,13 @@ plt.axvline(x=2019, color='black', linestyle='--',
 plt.xlabel('Year', fontsize=12)
 plt.ylabel('Total Number of Crimes', fontsize=12)
 plt.title('Top 20 Crime Trends (Stacked)', fontsize=14)
-plt.legend(title='Crime Type', bbox_to_anchor=(1.05, 1), loc='upper left')
+plt.legend(
+    title='Crime Type',
+    bbox_to_anchor=(0.5, -0.25),
+    loc='upper center',
+    ncol = 6,
+    fontsize=6
+)
 plt.grid(True)
 plt.tight_layout()
 plt.savefig("pictures/top_20_crimes_stacked.png", bbox_inches='tight', dpi=300)
@@ -650,9 +661,9 @@ filtered_crimes = total_crimes_per_year[(
     total_crimes_per_year['Year'] >= 2015) & (total_crimes_per_year['Year'] <= 2023)]
 
 # Plot the bar graph
-plt.figure(figsize=(8, 6))
+crimes_per_year = plt.figure(figsize=(8, 3))
 plt.bar(filtered_crimes['Year'], filtered_crimes['Total Crimes'],
-        color='grey', edgecolor='black')
+        color='orange', edgecolor='black')
 
 # format the plot
 plt.xlabel('Year', fontsize=12)
@@ -894,10 +905,10 @@ days_order = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su']
 heatmap_data = heatmap_data.reindex(days_order)
 
 # Plot the heatmap
-plt.figure(figsize=(8, 7))
+heat_map_weekday = plt.figure(figsize=(8, 3))
 sns.heatmap(heatmap_data, cmap='YlGnBu', annot=False,
             cbar_kws={'label': 'Crime Count'})
-plt.title('Heatmap of Crimes by Day and Hour', fontsize=16)
+plt.title('Heatmap of Crimes by Day and Hour (2015-2024)', fontsize=16)
 plt.xlabel('Hour of the Day', fontsize=14)
 plt.ylabel('Day of the Week', fontsize=14)
 plt.tight_layout()
@@ -909,8 +920,8 @@ plt.close()
 
 ```{python}
 # Part E: 15 community areas before/after 2018-2020 vs 2021-2023
-violence_reduction_data = pd.read_csv(
-    'data/Violence_Reduction_-_Victims_of_Homicides_and_Non-Fatal_Shootings_20241125.csv')
+# Creating a copy of the homicides and non-fatal shootings for the next section.
+violence_reduction_data = homicides
 ```
 
 ```{python}
@@ -965,14 +976,13 @@ chart_all = alt.Chart(summary_all).mark_bar().encode(
     color='Period:N',
     column=alt.Column('Period:N', title='Period')
 ).properties(
-    width=300,
-    height=400,
+    width=250,
+    height=250,
     title="Homicides and Non-Fatal Shootings Across Priority Community Areas \
          (2018–2020 vs. 2021–2023)"
 )
 
 chart_all.save('pictures/homicides_bar.png')
-
 # ![Homicides and Non-Fatal Shootings Across Priority Community Areas (2018–2020 vs. 2021–2023)]("pictures/homicides_bar.png")
 ```
 
@@ -1041,44 +1051,78 @@ chart_non_priority_all.save('pictures/homicides_bar_np.png')
 # ![Homicides and Non-Fatal Shootings Across Non-Priority Community Areas (2018–2020 vs. 2021–2023)]("pictures/homicides_bar_np.png")
 ```
 
-# Write-Up
-## Research question
-Our Question: To what extent has the City of Chicago's Violence Reduction Plan contributed to a measurable decrease in crime rates across community areas and how have crime trends evolved over time in response to its implementation? 
+### Our Question: To what extent has the City of Chicago's Violence Reduction Plan contributed to a measurable decrease in crime rates across community areas and how have crime trends evolved over time in response to its implementation? 
 
-We originally wanted to explore how the Violence Reduction Plan affected crime rates in Chicago, but soon realized that, in the wake of COVID-19, that was an impossible question to answer since it was implemented in September of 2020. Instead, we explored crime rate data in the 3 year periods before and after implementation (2018-2020 & 2021-2023). We knew at this point that if crime rates stayed, on average, the same across those two periods, that the VRS did not accomplish its goals. However, if we found that crime rates dropped and remained lower, that could potentially indicate some effectiveness. What we found was that crime rates rebounded back to their original levels in most parts of the city. Another key part of our question was the difference between community areas that were prioritized vs those that weren't. What we found here was that the priority areas saw much greater reductions in crime and, concurrently, remained lower than other areas. 
+We originally wanted to explore how the Violence Reduction Plan affected crime rates in Chicago, but soon realized that, in the wake of COVID-19, that was an impossible question to answer since it was implemented in September of 2020. Instead, we explored crime rate data in the 3 year periods before and after implementation (2018-2020 & 2021-2023). We knew at this point that if crime rates stayed, on average, the same across those two periods, that the VRS did not accomplish its goals. However, if we found that crime rates dropped and remained lower, that could potentially indicate some effectiveness. What we found was that crime rates rebounded back to their original levels in most parts of the city. Another key part of our question was the difference between community areas that were prioritized vs those that weren't. What we found here was that the priority areas saw much greater reductions in crime and, concurrently, remained lower than other areas.
 
-## Our Approach, Code, and Plots
 ### Natural Language Processing
-The City of Chicago released a report of the VRS one year after its implementation. We used the natural language processing tools we developed to analyze the City's general use of languauge when discussing the Plan's effectiveness. We found that the report overall had a more positive polarity and a neutral subjectivity, meaning that the City was generally positive about the data, its results, and their methods, all the while remaining fairly objective. This indicates that the City felt generally good about the project and wanted to portray a positive message. 
+```{python}
+#| fig-align: "center"
+alt.renderers.enable("png")
+combined_chart
+```
 
-[insert plot]
+The City of Chicago released a report of the VRS one year after its implementation. We used the natural language processing tools we developed to analyze the City's general use of languauge when discussing the Plan's effectiveness. We found that the report overall had a more positive polarity and a neutral subjectivity, meaning that the City was generally positive about the data, its results, and their methods, all the while remaining fairly objective. This indicates that the City felt generally good about the project and wanted to portray a positive message. 
 
 ### Geomapping 
 To get to the key differences between the priority areas and non-prority areas, we used City of Chicago community area geodata, merged with City of Chicago crime data, to create a map of total crime in the last 10 years. Another map was created that filtered only the priority areas. What we saw from these maps is that the areas that the City chose to focus on were generally alligned with the highest crime areas we found. Then, we wanted to see the differences across those aforementioned time periods, so we made maps of total crimes across community areas for both and compared. What we found was that crimes were slightly lower across Chicago, but not my much. Because we were relying on distinguishing different shades of colors, it was not entirely clear. So, we then took the differences of crime in all community areas and plotted that. What we found here again was that crime had generally stayed consistent across all of Chicago, and some increased. We then filtered down to just the priority areas and found that they attributed for the greatest decreases across the city. 
 
-[insert plot]
+```{python}
+#| out-width: "50%"
+#| out-height: "3in"
+#| fig-align: "center"
+graph_diff
+```
 
 ### Top 20 Crime Types
 Our next logical step was to see what was going on with each crime type and what could be contributing to these changes. So, we plotted a stacked graph with the top 20 crime types and saw that the majority of them decreased between 2019 to 2021, but then rebounded back to the same rates by 2023. Since we only had data through November of 2024, the 2024 column looked smaller than 2023, but could have been closer if we had the full year. We also took each of these 20 trends and plotted them separately to look at it from a different angle. Regardless, it now appeared to us that the VRS did not have much of an effect since crimes rebounded back right after the COVID lockdowns ended. To confirm this is a uniform trend and not just the top 20, we plotted total crimes for the last 10 years and found the same trend: crimes began decreasing in 2019 and were back to their highs in 2023. 
 
-[insert plot]
+```{python}
+#| fig-align: "center"
+graph_top20_crime
+```
 
 ### More Specific Lens
 Next, we looked at each community to find their greatest crime type. Unsurprisingly, theft and battery dominated every community. To confirm, we found and plotted the crimes most frequently in the Top 3 crimes and found the same answer. These plot, though informative in general, don't contribute much to our analysis, so we looked to heatmaps. 
 We created heatmaps to find when crimes were happening on the hour and day levels across communities and across all of Chicago. We found that crimes happen most often on weekends, at midnight and at noon, the last of which was surprising.
+```{python}
+#| out-width: "50%"
+#| out-height: "50%"
+#| fig-align: "center"
+heat_map_weekday
+```
+
 Lastly, we looked at homicides and non-fatal shootings from the Violent Crimes dataset and found the same trends: crimes did not drop after VRS implementation, but also did not drop after COVID lockdowns in priority and non-priority communities. 
 
-[insert plot]
+```{python}
+#| out-width: "50%"
+#| out-height: "50%"
+#| fig-align: "center"
+chart_all
+```
 
-## Weaknesses and Difficulties
+### Weaknesses and Difficulties
 The primary weakness in our analysis and exploration stems from the fact that COVID was co-occuring with VRS measures. However, we feel that we overcame this because we saw that most crimes either did not decrease, or rebounded right back to pre-COVID levels after lockdowns, indicating that the VRS was not effective on a city-wide level. 
 
-[insert plot]
+```{python}
+#| out-width: "50%"
+#| out-height: "50%"
+#| fig-align: "center"
+crimes_per_year
+```
 
-## Shiny
+### Shiny
 Our shiny app took all of the plots we developed and allowed us to filter them down to individual communities or years. This was helpful because we could see how trends evolved over time, not just what they are staticly in each time period. Some interesting observations include the shift of time of crime. Prior to COVID and the VRS, crimes occurec primarily at night (midnight precisely), but after they occured much more frequently at noon. We also saw that the areas with the most crime (priority) did in fact see the greatest crime declines. 
 
-## Policy Implications
+### Discussion / Key findings
+1. Crime rates began declining in 2019, prior to the VRS launch in September 2020.
+2. While crimes decreased after the VRS, this was likely influenced by other external factors such as COVID-19 restrictions (2021) and post-2023 efforts (e.g., firearm seizures, partnerships, federal collaborations).
+3. The rebound in crime rates in 2021 suggests the VRS alone was not solely responsible for the reductions.
 
+### Policy Implications
+⁠1. Tailored Initiatives: Develop tailored solutions for unique crime patterns in both priority and non-priority areas
+2.⁠ ⁠Targeted Interventions: Focus on high-crime hours (evenings and weekends) and peak days, especially Friday
+3.⁠ ⁠Resource Optimization: Enhance enforcement during peak times and address the top three crimes with specific initiatives
+4.⁠ ⁠Monitor Spillover Effects: Investigate whether priority-area interventions 4 displace crime to non-priority areas
+5.⁠ ⁠Update Strategy: Urge to continuously update VRS strategy based on new findings, trends, and factors
 
-## Discussion
