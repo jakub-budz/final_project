@@ -1,6 +1,6 @@
 ---
 title: "Final Project"
-author: "Lara Tamer, Ralph Valery Valiere, Jakub Budz"
+author: "Lara Tamer (ltamer - section 3), Ralph Valery Valiere (ralphvaleryv - section 2), Jakub Budz (jbudz - section 1)"
 date: "December 7, 2024"
 format:
   pdf:
@@ -17,7 +17,7 @@ execute:
 # https://drive.google.com/drive/folders/1dFGQ71CesghWY5dWehwiumX57TJQiykV
 
 # Base path (EACH PERSON MUST UPDATE TO WHERE THEIR CRIME DATA IS)
-base_path = "C:/Users/Jakub/Downloads/final_data"
+base_path = '/Users/laratamer/Desktop'
 ```
 
 ```{python}
